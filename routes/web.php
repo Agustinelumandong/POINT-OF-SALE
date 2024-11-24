@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -18,3 +19,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('/admin/logout', [AdminController::class, 'AdminDestroy'])->name('admin.logout');
+
+Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
