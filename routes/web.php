@@ -23,3 +23,5 @@ require __DIR__ . '/auth.php';
 Route::get('/admin/logout', [AdminController::class, 'AdminDestroy'])->name('admin.logout');
 
 Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
+
+Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileUpdate'])->name('admin.profile.store');
