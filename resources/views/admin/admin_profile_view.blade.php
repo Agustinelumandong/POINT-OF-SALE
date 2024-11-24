@@ -1,6 +1,6 @@
 @extends('admin_dashboard')
 @section('admin')
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
 <!-- Start Container-->
@@ -26,9 +26,9 @@
   <div class="row card user-profile o-hidden mb-30">
     <div class="w-auto bg-image header-cover"></div>
     <div class="user-info">
-      <img src="{{ (!empty($adminData->photo)) ? 
+      <img id="showImage" src="{{ (!empty($adminData->photo)) ? 
         url("upload/admin_image/{$adminData->photo}") : 
-        url('upload/no_image.jpg') }}" alt="" class="profile-picture avatar-xxl mb-2 rounded-circle shadow">
+        url('upload/no_image.jpg') }}" alt="" class="profile-picture avatar-xxl mb-2 rounded-circle shadow" alt="profile-image">
       <p class="m-0 text-24 fw-bolder fs-3">{{ $adminData->name }}</p>
     </div>
 
@@ -59,8 +59,8 @@
 
           <div class="col-sm-12 col-md-6">
             <div class="form-group">
-              <label class="form-label pt-0" for="photo">User Image</label>
-              <input id="photo" name="photo" type="file" class="form-control">
+              <label class="form-label pt-0" for="image">User Image</label>
+              <input id="image" name="photo" type="file" class="form-control">
             </div>
           </div>
 
@@ -79,5 +79,17 @@
 
 </div>
 
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#image').change(function(e) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#showImage').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(e.target.files['0']);
+    })
+  })
+</script>
 
 @endsection
