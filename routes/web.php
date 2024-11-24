@@ -24,4 +24,4 @@ Route::get('/admin/logout', [AdminController::class, 'AdminDestroy'])->name('adm
 
 Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
 
-Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileUpdate'])->name('admin.profile.store');
+Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileUpdate'])->name('admin.profile.update');
