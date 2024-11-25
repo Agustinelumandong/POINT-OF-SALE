@@ -8,7 +8,8 @@
       <div class="col-12">
         <div class="page-title-box">
           <div class="page-title-right">
-
+            <a href="" class="btn btn-success rounded-pill waves-effect waves-light">
+              <i class="i-Edit text-25 text-success"></i>Add Employee</a>
           </div>
           <h4 class="page-title">All Employee</h4>
         </div>
@@ -28,6 +29,7 @@
                 <tr>
                   <th>EmployeeID</th>
                   <th>Employee Image</th>
+                  <th>Employee Name</th>
                   <th>Employee Email</th>
                   <th>Employee Phone</th>
                   <th>Employee Salary</th>
@@ -36,14 +38,23 @@
               </thead>
 
               <tbody>
+                @foreach ( $employee as $key=>$item)
                 <tr>
-                  <td>EmployeeID</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                  <td>2011/04/25</td>
-                  <td>$320,800</td>
+                  <td>{{ $key+1 }}</td>
+                  <td><img src="{{asset($item->image)}}" style="width:50px; height:40px;"></td>
+                  <td>{{$item->name}}</td>
+                  <td>{{$item->email}}</td>
+                  <td>{{$item->phone}}</td>
+                  <td>{{$item->salary}}</td>
+                  <td>
+
+                    <a href="" class="btn btn-blue rounded-pill waves-effect waves-light">
+                      <i class="i-Edit text-25 text-success"></i>Edit</a>
+                    <a href="" class="btn btn-danger rounded-pill waves-effect waves-light">Delete</a>
+
+                  </td>
                 </tr>
+                @endforeach
 
               </tbody>
             </table>
