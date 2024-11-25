@@ -81,7 +81,7 @@
                                         class="form-control @error('login') is-invalid @enderror rounded-pill p-2 "
                                         type="text"
                                         id="login"
-                                        name="login" :value="old('login')"
+                                        name="login" value="{{ old('login') }}"
                                         required autofocus autocomplete="username"
                                         placeholder="Enter your Username/Email/Phone" />
                                     @error('login')
@@ -99,6 +99,7 @@
                                             type="password"
                                             id="password"
                                             name="password"
+                                            name="login"
                                             required autocomplete="current-password"
                                             class="password form-control @error('password') is-invalid @enderror p-2 "
                                             placeholder=" Enter your password" />
