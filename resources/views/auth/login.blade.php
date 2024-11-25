@@ -30,12 +30,6 @@
         rel="stylesheet"
         type="text/css" />
 
-    <!-- LOGIN CSS -->
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="{{ asset('backend/assets/css/login.css') }}" />
-
     <!-- Head js -->
     <script src="{{ asset('backend/assets/js/head.js') }}"></script>
 
@@ -77,22 +71,27 @@
                                 </div>
                             </div>
 
-                            <form method="POST" action="{{ route('login') }}" novalidate class="mt-4">
+                            <form method="POST" action="{{ route('login') }}" class="mt-4">
                                 @csrf
 
                                 <div class="mb-2 form-group">
                                     <label
                                         for="login" class="form-label">Username/Email/Phone</label>
                                     <input
-                                        class="form-control rounded-pill p-2"
+                                        class="form-control @error('login') is-invalid @enderror rounded-pill p-2 "
                                         type="text"
                                         id="login"
                                         name="login" :value="old('login')"
                                         required autofocus autocomplete="username"
                                         placeholder="Enter your Username/Email/Phone" />
+                                    @error('login')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
                                 </div>
 
-                                <div class="mb-1 form-group">
+                                <div class="mb-2 form-group">
                                     <label for="password" class="form-label">Password</label>
                                     <div
                                         class="input-group input-group-merge">
@@ -101,8 +100,8 @@
                                             id="password"
                                             name="password"
                                             required autocomplete="current-password"
-                                            class="password form-control p-2"
-                                            placeholder="Enter your password" />
+                                            class="password form-control @error('password') is-invalid @enderror p-2 "
+                                            placeholder=" Enter your password" />
 
                                         <!-- <div
                                             class="input-group-text"
@@ -111,6 +110,11 @@
                                                 class="password-eye"></span>
                                         </div> -->
                                     </div>
+                                    @error('password')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">
