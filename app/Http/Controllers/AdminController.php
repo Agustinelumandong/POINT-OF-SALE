@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AdminController extends Controller
@@ -31,7 +32,6 @@ class AdminController extends Controller
         $adminData = User::find($id);
 
         return view('admin.admin_profile_view', compact('adminData'));
-        // return redirect()->route('admin.profile', ['id' => $id]);
     } //end AdminProfile(), Method
 
     public function AdminProfileUpdate(Request $request)
@@ -59,4 +59,42 @@ class AdminController extends Controller
 
         return redirect()->back()->with($notification);
     } //end AdminProfileStore(), Method
+
+    public function ChangePassword()
+    {
+        return view('admin.change_password');
+    }
+
+    public function UpdatePassword(Request $request)
+    {
+
+        /// Validation 
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed',
+
+        ]);
+
+        /// Match The Old Password 
+        if (!Hash::check($request->old_password, Auth::user()->password)) {
+
+            $notification = [
+                'message' => 'Old Password does not match!!',
+                'alert-type' => 'error'
+            ];
+            return back()->with($notification);
+        }
+
+        //// Update The New Password 
+
+        User::whereId(Auth::user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        $notification = array(
+            'message' => 'Password Change Successfully',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
+    } // End Method 
 }

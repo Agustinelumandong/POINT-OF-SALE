@@ -46,7 +46,7 @@
           <div class="col-sm-12 col-md-6">
             <div class="form-group">
               <label class="form-label pt-0" for="email">Email *</label>
-              <input name="email" type="text" class="form-control" value="{{ $adminData->email }}">
+              <input id="email" name="email" type="text" class="form-control" value="{{ $adminData->email }}">
 
             </div>
           </div>
@@ -54,7 +54,7 @@
           <div class="col-sm-12 col-md-6">
             <div class="form-group">
               <label class="form-label pt-0" id="phone">Phone *</label>
-              <input name="phone" type="text" class="form-control" value="{{ $adminData->phone }}">
+              <input id="phone" name="phone" type="text" class="form-control" value="{{ $adminData->phone }}">
             </div>
           </div>
 
@@ -63,6 +63,10 @@
               <label class="form-label pt-0" for="image">Image *</label>
               <input id="image" name="photo" type="file" class="form-control">
             </div>
+          </div>
+
+          <div class="col-sm-6 col-md-2">
+            <a href="{{ route('change.password') }}"><button type="button" class="block btn btn-danger waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Change Password</button></a>
           </div>
 
           <div class="text-end">
