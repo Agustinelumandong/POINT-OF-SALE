@@ -9,9 +9,9 @@
         <div class="page-title-box">
           <div class="page-title-right">
             <a href="{{ route('add.employee') }}" class="btn btn-success rounded-pill waves-effect waves-light">
-              <i class="i-Edit text-25 text-success"></i>Add Employee</a>
+              <i class="i-Edit text-25 text-success"></i>Show Deleted Employee</a>
           </div>
-          <h4 class="page-title">All Employee</h4>
+          <h4 class="page-title">Show Deleted Employee</h4>
         </div>
       </div>
     </div>
@@ -38,18 +38,20 @@
               </thead>
 
               <tbody>
-                @foreach ( $employee as $key=>$item)
+                @foreach ( $deletedEmployees as $key=>$item)
                 <tr>
+
                   <td>{{ $key+1 }}</td>
-                  <td><img src="{{asset($item->employeeImage)}}" style="width:50px; height:40px;"></td>
+                  <!-- <td><img src="{{asset($item->employeeImage)}}" style="width:45px; height:40px;"></td> -->
+                  <td><img src="{{ $item->deletedImagePath }}" alt="Deleted Employee Image" style="width: 45px; height: 40;"></td>
                   <td>{{$item->employeeName}}</td>
                   <td>{{$item->employeeEmail}}</td>
                   <td>{{$item->employeePhone}}</td>
                   <td>{{$item->employeeSalary}}</td>
                   <td>
 
-                    <a href="{{ route('edit.employee', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Edit</a>
-                    <a href="{{ route('delete.employee', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete</a>
+                    <a href="{{ route('restore.employee', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Restore</a>
+                    <a href="{{ route('delete.permanently.employee', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete Permanently</a>
 
                   </td>
 

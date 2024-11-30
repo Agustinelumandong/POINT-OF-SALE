@@ -13166,4 +13166,13 @@ body[data-theme="dark"] .list-group {
     background-repeat: no-repeat; /* Prevent the image from repeating */
 }
 
+.my-popup .swal2-icon-warning {
+    color: red !important; /* Set the color of the warning icon to red */
+}
+
+.swal2-modal .swal2-confirm {
+    color: red !important; /* Set the color of the warning icon to red */
+    background-color: #e7e7e7 !important;
+}
+
 /*# sourceMappingURL=bootstrap.min.css.map */

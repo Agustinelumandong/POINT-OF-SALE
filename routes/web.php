@@ -37,5 +37,13 @@ Route::middleware('auth')->group(function () {
     // Employee All Route
     Route::controller(EmployeeController::class)->group(function () {
         Route::get('/all/employee', 'AllEmployee')->name('all.employee');
+        Route::get('/add/employee', 'AddEmployee')->name('add.employee');
+        Route::post('/store/employee', 'StoreEmployee')->name('store.employee');
+        Route::get('/edit/employee{id}', action: 'EditEmployee')->name('edit.employee');
+        Route::post('/update/employee', 'UpdateEmployee')->name('update.employee');
+        Route::get('/delete/employee{id}', action: 'DeleteEmployee')->name('delete.employee');
+        Route::get('/show/deleted/employee', action: 'ShowDeletedEmployee')->name('show.deleted.employee');
+        Route::get('/restore/employee{id}', action: 'RestoreEmployee')->name('restore.employee');
+        Route::get('/delete/permanently/employee{id}', action: 'DeletePermanentlyEmployee')->name('delete.permanently.employee');
     }); //end Route::controller(), Group
 }); //end Route::middleware(), Group

@@ -9081,5 +9081,23 @@ span.flatpickr-weekday {
     font-family: "Material Design Icons";
     position: absolute;
 }
+.my-popup .swal2-icon-warning {
+    color: red !important; /* Set the color of the warning icon to red */
+}
+
+.swal2-modal .swal2-confirm {
+    color: red !important; /* Set the color of the warning icon to red */
+    background-color: #e7e7e7 !important;
+}
+
+.swal2-icon.swal2-warning {
+    color: #ff0000 !important;
+    border-color: red !important;
+}
+
+.swal2-container.swal2-backdrop-show,
+.swal2-container.swal2-noanimation {
+    background-color: rgba(250, 250, 250, 0.5) /* 50% opaque red */ !important;
+}
 
 /*# sourceMappingURL=app.min.css.map */
