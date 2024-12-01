@@ -10,7 +10,7 @@
           <div class="page-title-right">
 
           </div>
-          <h4 class="page-title">All Deleted Customer</h4>
+          <h4 class="page-title">All Deleted Supplier</h4>
         </div>
       </div>
     </div>
@@ -26,28 +26,28 @@
               class="table dt-responsive nowrap w-100">
               <thead>
                 <tr>
-                  <th>CustomerID</th>
-                  <th>Customer Name</th>
-                  <th>Customer Email</th>
-                  <th>Customer Phone</th>
-                  <th>Customer Address</th>
+                  <th>SupplierID</th>
+                  <th>Supplier Name</th>
+                  <th>Supplier Email</th>
+                  <th>Supplier Phone</th>
+                  <th>Supplier Type</th>
                   <th>Action</th>
                 </tr>
               </thead>
 
               <tbody>
-                @foreach ( $deletedCustomers as $key=>$item)
+                @foreach ( $deletedSuppliers as $key=>$item)
                 <tr>
 
                   <td>{{ $key+1 }}</td>
-                  <td>{{$item->customerName}}</td>
-                  <td>{{$item->customerEmail}}</td>
-                  <td>{{$item->customerPhone}}</td>
-                  <td>{{$item->customerAddress}}</td>
+                  <td>{{$item->supplierName}}</td>
+                  <td>{{$item->supplierEmail}}</td>
+                  <td>{{$item->supplierPhone}}</td>
+                  <td>{{$item->supplierType}}</td>
                   <td>
 
-                    <a href="{{ route('restore.customer', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Restore</a>
-                    <a href="{{ route('delete.permanently.customer', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete Permanently</a>
+                    <a href="{{ route('restore.supplier', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Restore</a>
+                    <a href="{{ route('delete.permanently.supplier', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete Permanently</a>
 
                   </td>
 

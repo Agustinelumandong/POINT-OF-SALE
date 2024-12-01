@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class CustomerController extends Controller
 {
-    //
+    // All Customer
     public function AllCustomer()
     {
         $customer = Customer::latest()->get();

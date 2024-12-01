@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend;
 use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\SupplierController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,11 +29,8 @@ Route::get('/admin/logout', [AdminController::class, 'AdminDestroy'])->name('adm
 
 Route::middleware('auth')->group(function () {
     Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
-
     Route::post('/admin/profile/update', [AdminController::class, 'AdminProfileUpdate'])->name('admin.profile.update');
-
     Route::get('/change/password', [AdminController::class, 'ChangePassword'])->name('change.password');
-
     Route::post('/update/password', [AdminController::class, 'UpdatePassword'])->name('update.password');
 
     // Employee All Route
@@ -48,6 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/delete/permanently/employee{id}', action: 'DeletePermanentlyEmployee')->name('delete.permanently.employee');
     }); //end Route::controller(), Group
 
+
     // Customer All Route
     Route::controller(CustomerController::class)->group(function () {
         Route::get('/all/customer', 'AllCustomer')->name('all.customer');
@@ -60,4 +59,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/restore/customer{id}', action: 'RestoreCustomer')->name('restore.customer');
         Route::get('/delete/permanently/customer{id}', action: 'DeletePermanentlyCustomer')->name('delete.permanently.customer');
     }); //end Route::controller(), Group
+
+
+    // Supplier All Route
+    Route::controller(SupplierController::class)->group(function () {
+        Route::get('/all/supplier', 'AllSupplier')->name('all.supplier');
+        Route::get('/add/supplier', 'AddSupplier')->name('add.supplier');
+        Route::post('/store/supplier', 'StoreSupplier')->name('store.supplier');
+        Route::get('/edit/supplier{id}', action: 'EditSupplier')->name('edit.supplier');
+        Route::post('/update/supplier', 'UpdateSupplier')->name('update.supplier');
+        Route::get('/delete/supplier{id}', action: 'DeleteSupplier')->name('delete.supplier');
+        Route::get('/show/deleted/supplier', action: 'ShowDeletedSupplier')->name('show.deleted.supplier');
+        Route::get('/restore/supplier{id}', action: 'RestoreSupplier')->name('restore.supplier');
+        Route::get('/delete/permanently/supplier{id}', action: 'DeletePermanentlySupplier')->name('delete.permanently.supplier');
+        Route::get('/details/supplier{id}', action: 'DetailsSupplier')->name('details.supplier');
+    }); //end Route::controller(), Group
+
+
+
 }); //end Route::middleware(), Group
