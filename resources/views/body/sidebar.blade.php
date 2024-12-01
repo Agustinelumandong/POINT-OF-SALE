@@ -58,12 +58,12 @@
                 <li class="menu-title mt-2">Apps</li>
 
                 <li>
-                    <a href="#sidebarEcommerce" data-bs-toggle="collapse">
+                    <a href="#sidebarEmployee" data-bs-toggle="collapse">
                         <i class="mdi mdi-cart-outline"></i>
                         <span> Employee Management </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEcommerce">
+                    <div class="collapse" id="sidebarEmployee">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('all.employee')}}">All Employee</a>
@@ -78,7 +78,27 @@
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <a href="#sidebarCustomer" data-bs-toggle="collapse">
+                        <i class="mdi mdi-cart-outline"></i>
+                        <span> Customer Management </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarCustomer">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('all.customer')}}">All Customer</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('add.customer')}}">Add Customer</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('show.deleted.customer')}}">Deleted Customer</a>
+                            </li>
 
+                        </ul>
+                    </div>
+                </li>
                 <li>
                     <a href="#sidebarCrm" data-bs-toggle="collapse">
                         <i class="mdi mdi-account-multiple-outline"></i>

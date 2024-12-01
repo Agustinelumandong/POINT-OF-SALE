@@ -6,8 +6,6 @@
   <meta charset="utf-8" />
   <title>POS System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-  <meta content="Coderthemes" name="author" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- App favicon -->
   <link rel="shortcut icon" href="{{asset('backend/assets/images/pos-logo.png')}}">
@@ -485,19 +483,20 @@
   <div class="rightbar-overlay"></div>
 
   <!-- Vendor js -->
-  <script src="{{asset('backend/assets/js/vendor.min.js')}}"></script>
+  <script src="{{ asset('backend/assets/js/vendor.min.js') }}"></script>
 
   <!-- Plugins js-->
-  <script src="{{asset('backend/assets/libs/flatpickr/flatpickr.min.js')}}"></script>
-  <script src="{{asset('backend/assets/libs/apexcharts/apexcharts.min.js')}}"></script>
+  <script src="{{ asset('backend/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-  <script src="{{asset('backend/assets/libs/selectize/js/standalone/selectize.min.js')}}"></script>
+  <script src="{{ asset('backend/assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
 
   <!-- Dashboar 1 init js-->
-  <script src="{{asset('backend/assets/js/pages/dashboard-1.init.js')}}"></script>
+  <script src="{{ asset('backend/assets/js/pages/dashboard-1.init.js') }}"></script>
 
   <!-- App js-->
-  <script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+  <script src="{{ asset('backend/assets/js/app.min.js') }}"></script>
+
 
 
   <!-- datatables js -->
@@ -520,34 +519,42 @@
   <script src="{{ asset('backend/assets/js/pages/datatables.init.js') }}"></script>
   <!-- Datatables Eend -->
 
-  <!-- Sweet Alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Toastr js -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="{{ asset('backend/assets/js/code.js') }}"></script>
-  <!-- SweetAlert2 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <script src="{{ asset('backend/assets/js/validate.min.js') }}"></script>
 
-  <!-- toastr js -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <!-- Toastr js -->
+
 
   @if(Session::has('message'))
+  <!-- If there is a 'message' in the session, execute the following script -->
   <script>
+    // Get the alert type from the session, defaulting to 'info' if not set
     var type = "{{ Session::get('alert-type','info') }}";
+    // Get the message from the session
     var message = "{{ Session::get('message') }}";
+
+    // Switch statement to handle different types of alerts
     switch (type) {
       case 'info':
+        // Display an informational toastr notification
         toastr.info(message);
         break;
 
       case 'success':
+        // Display a success toastr notification
         toastr.success(message);
         break;
 
       case 'warning':
+        // Display a warning toastr notification
         toastr.warning(message);
         break;
 
       case 'error':
+        // Display an error toastr notification
         toastr.error(message);
         break;
     }

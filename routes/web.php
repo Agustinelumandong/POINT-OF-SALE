@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend;
 use App\Http\Controllers\Backend\EmployeeController;
+use App\Http\Controllers\Backend\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,5 +46,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/deleted/employee', action: 'ShowDeletedEmployee')->name('show.deleted.employee');
         Route::get('/restore/employee{id}', action: 'RestoreEmployee')->name('restore.employee');
         Route::get('/delete/permanently/employee{id}', action: 'DeletePermanentlyEmployee')->name('delete.permanently.employee');
+    }); //end Route::controller(), Group
+
+    // Customer All Route
+    Route::controller(CustomerController::class)->group(function () {
+        Route::get('/all/customer', 'AllCustomer')->name('all.customer');
+        Route::get('/add/customer', 'AddCustomer')->name('add.customer');
+        Route::post('/store/customer', 'StoreCustomer')->name('store.customer');
+        Route::get('/edit/customer{id}', action: 'EditCustomer')->name('edit.customer');
+        Route::post('/update/customer', 'UpdateCustomer')->name('update.customer');
+        Route::get('/delete/customer{id}', action: 'DeleteCustomer')->name('delete.customer');
+        Route::get('/show/deleted/customer', action: 'ShowDeletedCustomer')->name('show.deleted.customer');
+        Route::get('/restore/customer{id}', action: 'RestoreCustomer')->name('restore.customer');
+        Route::get('/delete/permanently/customer{id}', action: 'DeletePermanentlyCustomer')->name('delete.permanently.customer');
     }); //end Route::controller(), Group
 }); //end Route::middleware(), Group

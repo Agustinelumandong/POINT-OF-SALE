@@ -8,10 +8,9 @@
       <div class="col-12">
         <div class="page-title-box">
           <div class="page-title-right">
-            <a href="{{ route('add.employee') }}" class="btn btn-success rounded-pill waves-effect waves-light">
-              <i class="i-Edit text-25 text-success"></i>Show Deleted Employee</a>
+
           </div>
-          <h4 class="page-title">Show Deleted Employee</h4>
+          <h4 class="page-title">All Deleted Employee</h4>
         </div>
       </div>
     </div>
