@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend;
 use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\SupplierController;
+use App\Http\Controllers\Backend\ProductCategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -75,6 +76,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/details/supplier{id}', action: 'DetailsSupplier')->name('details.supplier');
     }); //end Route::controller(), Group
 
-
+    // Supplier All Route
+    Route::controller(ProductCategoryController::class)->group(function () {
+        Route::get('/all/product/category', 'AllProductCategory')->name('all.productCategory');
+        Route::get('/add/product/category', 'AddProductCategory')->name('add.productCategory');
+        Route::post('/store/product/category', 'StoreProductCategory')->name('store.productCategory');
+        Route::get('/edit/product/category{id}', action: 'EditProductCategory')->name('edit.productCategory');
+        Route::post('/update/product/category', 'UpdateProductCategory')->name('update.productCategory');
+        Route::get('/delete/product/category{id}', action: 'DeleteProductCategory')->name('delete.productCategory');
+        Route::get('/show/deleted/product/category', action: 'ShowDeletedProductCategory')->name('show.deleted.productCategory');
+        Route::get('/restore/product/category{id}', action: 'RestoreProductCategory')->name('restore.productCategory');
+        Route::get('/delete/permanently/product/category{id}', action: 'DeletePermanentlyProductCategory')->name('delete.permanently.productCategory');
+    }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group
