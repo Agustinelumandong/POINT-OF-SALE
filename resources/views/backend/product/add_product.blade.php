@@ -28,17 +28,30 @@
             <div class="form-group mb-2">
               <label class="col-form-label pt-0" for="productName">Product Name *</label>
               <input id="productName" name="productName" type="text" class="form-control">
-
             </div>
           </div>
 
-          <div class=" col-sm-12 col-md-6">
+
+
+
+          <!-- <div class="col-sm-12 col-md-6">
             <div class="form-group mb-2">
-              <label class="form-label pt-0" id="productCode">Product Code *</label>
-              <input id="productCode" name="productCode" type="text" class="form-control ">
+              <label class="col-form-label pt-0" for="productCode">Product Code *</label>
+              <div class="input-group">
+                <div class="input-group-prepend"></div>
+                <input type="text" class="form-control " id="productCode">
+                <div class="input-group-append">
+                  <span class="input-group-text ">
+                    <a class="btn btn-link p-0 m-0">
+                      <i class="fa-solid fa-qrcode"></i>
+                    </a>
+                  </span>
+                </div>
 
+              </div>
             </div>
-          </div>
+          </div> -->
+
 
           <div class="col-sm-12 col-md-6">
             <div class="form-group mb-2">
@@ -131,9 +144,6 @@
         supplierID: {
           required: true,
         },
-        productCode: {
-          required: true,
-        },
         buyingDate: {
           required: true,
         },
@@ -166,9 +176,7 @@
         supplierID: {
           required: 'Please Select Supplier',
         },
-        productCode: {
-          required: 'Please Enter Product Code',
-        },
+
         buyingDate: {
           required: 'Please Select Buying Date',
         },

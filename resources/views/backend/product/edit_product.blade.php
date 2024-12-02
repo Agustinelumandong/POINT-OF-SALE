@@ -36,13 +36,7 @@
             </div>
           </div>
 
-          <div class=" col-sm-12 col-md-6">
-            <div class="form-group mb-2">
-              <label class="form-label pt-0" id="productCode">Product Code *</label>
-              <input id="productCode" name="productCode" type="text" class="form-control" value=" {{ old('productName', $product->productCode ?? '')}}">
 
-            </div>
-          </div>
 
           <div class="col-sm-12 col-md-6">
             <div class="form-group mb-2">
@@ -134,9 +128,7 @@
         supplierID: {
           required: true,
         },
-        productCode: {
-          required: true,
-        },
+
         buyingDate: {
           required: true,
         },
@@ -169,9 +161,7 @@
         supplierID: {
           required: 'Please Select Supplier',
         },
-        productCode: {
-          required: 'Please Enter Product Code',
-        },
+
         buyingDate: {
           required: 'Please Select Buying Date',
         },

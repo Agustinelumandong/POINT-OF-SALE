@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class ProductController extends Controller
 {
@@ -30,6 +31,9 @@ class ProductController extends Controller
 
     public function StoreProduct(Request $request)
     {
+
+        $productsCode = IdGenerator::generate(['table' => 'products', 'field' => 'productCode', 'length' => 8, 'prefix' => 'P']);
+
         if ($request->file('productImage')) {
             $manager = new ImageManager(new Driver());
             $name_gen = hexdec(uniqid()) . '.' . $request->file('productImage')->getClientOriginalExtension();
@@ -43,7 +47,7 @@ class ProductController extends Controller
                 'productName' => $request->productName,
                 'categoryID' => $request->categoryID,
                 'supplierID' => $request->supplierID,
-                'productCode' => $request->productCode,
+                'productCode' => $productsCode,
                 'productImage' => $save_url,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
@@ -221,4 +225,9 @@ class ProductController extends Controller
         return redirect()->route('show.deleted.product')->with($notification);
     } //end method DeletePermanentlyProduct
 
+    public function BarcodeProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        return view("backend.product.barcode_product", compact("product"));
+    } //end method BarcodeProduct
 }

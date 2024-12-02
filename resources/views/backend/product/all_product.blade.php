@@ -51,6 +51,7 @@
                   <td>
 
                     <a href="{{ route('edit.product', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Edit</a>
+                    <a href="{{ route('barcode.product', $item->id)}}" class="btn btn-info rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Code</a>
                     <a href="{{ route('delete.product', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete</a>
 
                   </td>

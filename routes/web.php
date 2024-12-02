@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/add/product', 'AddProduct')->name('add.product');
         Route::post('/store/product', 'StoreProduct')->name('store.product');
         Route::get('/edit/product{id}', action: 'EditProduct')->name('edit.product');
+        Route::get('/barcode/product{id}', action: 'BarcodeProduct')->name('barcode.product');
         Route::post('/update/product', 'UpdateProduct')->name('update.product');
         Route::get('/delete/product{id}', action: 'DeleteProduct')->name('delete.product');
         Route::get('/show/deleted/product', action: 'ShowDeletedProduct')->name('show.deleted.product');
