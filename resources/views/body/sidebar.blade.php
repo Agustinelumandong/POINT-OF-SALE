@@ -121,6 +121,27 @@
                     </div>
                 </li>
                 <li>
+                    <a href="#sidebarProduct" data-bs-toggle="collapse">
+                        <i class="mdi mdi-cart-outline"></i>
+                        <span>Products Management</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarProduct">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('all.product')}}">All Products</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('add.product')}}">Add Products</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('show.deleted.product')}}">Deleted Products</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li>
                     <a href="#sidebarProductCategory" data-bs-toggle="collapse">
                         <i class="mdi mdi-cart-outline"></i>
                         <span> Product Category </span>

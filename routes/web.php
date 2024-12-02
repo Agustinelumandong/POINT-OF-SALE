@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\EmployeeController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\ProductCategoryController;
+use App\Http\Controllers\Backend\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -76,7 +77,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/details/supplier{id}', action: 'DetailsSupplier')->name('details.supplier');
     }); //end Route::controller(), Group
 
-    // Supplier All Route
+    // Product Category All Route
     Route::controller(ProductCategoryController::class)->group(function () {
         Route::get('/all/product/category', 'AllProductCategory')->name('all.productCategory');
         Route::get('/add/product/category', 'AddProductCategory')->name('add.productCategory');
@@ -87,6 +88,19 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/deleted/product/category', action: 'ShowDeletedProductCategory')->name('show.deleted.productCategory');
         Route::get('/restore/product/category{id}', action: 'RestoreProductCategory')->name('restore.productCategory');
         Route::get('/delete/permanently/product/category{id}', action: 'DeletePermanentlyProductCategory')->name('delete.permanently.productCategory');
+    }); //end Route::controller(), Group
+
+    // Product All Route
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/all/product', 'AllProduct')->name('all.product');
+        Route::get('/add/product', 'AddProduct')->name('add.product');
+        Route::post('/store/product', 'StoreProduct')->name('store.product');
+        Route::get('/edit/product{id}', action: 'EditProduct')->name('edit.product');
+        Route::post('/update/product', 'UpdateProduct')->name('update.product');
+        Route::get('/delete/product{id}', action: 'DeleteProduct')->name('delete.product');
+        Route::get('/show/deleted/product', action: 'ShowDeletedProduct')->name('show.deleted.product');
+        Route::get('/restore/product{id}', action: 'RestoreProduct')->name('restore.product');
+        Route::get('/delete/permanently/product{id}', action: 'DeletePermanentlyProduct')->name('delete.permanently.product');
     }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group
