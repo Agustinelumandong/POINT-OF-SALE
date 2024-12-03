@@ -8,6 +8,10 @@
       <div class="col-12">
         <div class="page-title-box">
           <div class="page-title-right">
+            <a href="{{ route('export.product') }}" class="btn btn-danger rounded-pill waves-effect waves-light">
+              <i class="i-Edit text-25 text-success"></i>Export Product</a>
+            <a href="{{ route('import.product') }}" class="btn btn-warning rounded-pill waves-effect waves-light">
+              <i class="i-Edit text-25 text-success"></i>Import Product</a>
             <a href="{{ route('add.product') }}" class="btn btn-success rounded-pill waves-effect waves-light">
               <i class="i-Edit text-25 text-success"></i>Add Product</a>
           </div>
@@ -50,9 +54,9 @@
                   <td>{{$item->sellingPrice}}</td>
                   <td>
 
-                    <a href="{{ route('edit.product', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Edit</a>
-                    <a href="{{ route('barcode.product', $item->id)}}" class="btn btn-info rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Code</a>
-                    <a href="{{ route('delete.product', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete</a>
+                    <a href="{{ route('edit.product', $item->id)}}"><i class="fa-regular fa-pen-to-square fa-2xl"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('barcode.product', $item->id)}}"><i class="fa-solid fa-barcode fa-2xl" style="color: #74C0FC;"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('delete.product', $item->id)}}" id="delete" name="delete"><i class="fa-solid fa-trash-can fa-2xl" style="color: #ff0000;"></i></a>&nbsp;&nbsp;&nbsp;
 
                   </td>
                 </tr>

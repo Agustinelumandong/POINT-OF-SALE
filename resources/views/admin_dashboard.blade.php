@@ -527,6 +527,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <!-- Toastr js -->
 
+  <script src="https://kit.fontawesome.com/e7de5c3ff6.js" crossorigin="anonymous"></script>
 
   @if(Session::has('message'))
   <!-- If there is a 'message' in the session, execute the following script -->

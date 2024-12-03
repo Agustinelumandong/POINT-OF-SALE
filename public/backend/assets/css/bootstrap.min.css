@@ -3200,10 +3200,10 @@ fieldset:disabled .btn {
     --ct-btn-disabled-border-color: #4fc6e1;
 }
 .btn-warning {
-    --ct-btn-color: #343a40;
+    --ct-btn-color: #fff;
     --ct-btn-bg: #f7b84b;
     --ct-btn-border-color: #f7b84b;
-    --ct-btn-hover-color: #343a40;
+    --ct-btn-hover-color: #fff;
     --ct-btn-hover-bg: #f8c366;
     --ct-btn-hover-border-color: #f8bf5d;
     --ct-btn-focus-shadow-rgb: 218, 165, 73;

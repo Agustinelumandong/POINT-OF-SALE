@@ -40,12 +40,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/all/employee', 'AllEmployee')->name('all.employee');
         Route::get('/add/employee', 'AddEmployee')->name('add.employee');
         Route::post('/store/employee', 'StoreEmployee')->name('store.employee');
-        Route::get('/edit/employee{id}', action: 'EditEmployee')->name('edit.employee');
+        Route::get('/edit/employee{id}',  'EditEmployee')->name('edit.employee');
         Route::post('/update/employee', 'UpdateEmployee')->name('update.employee');
-        Route::get('/delete/employee{id}', action: 'DeleteEmployee')->name('delete.employee');
-        Route::get('/show/deleted/employee', action: 'ShowDeletedEmployee')->name('show.deleted.employee');
-        Route::get('/restore/employee{id}', action: 'RestoreEmployee')->name('restore.employee');
-        Route::get('/delete/permanently/employee{id}', action: 'DeletePermanentlyEmployee')->name('delete.permanently.employee');
+        Route::get('/delete/employee{id}',  'DeleteEmployee')->name('delete.employee');
+        Route::get('/show/deleted/employee',  'ShowDeletedEmployee')->name('show.deleted.employee');
+        Route::get('/restore/employee{id}',  'RestoreEmployee')->name('restore.employee');
+        Route::get('/delete/permanently/employee{id}',  'DeletePermanentlyEmployee')->name('delete.permanently.employee');
     }); //end Route::controller(), Group
 
 
@@ -54,12 +54,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/all/customer', 'AllCustomer')->name('all.customer');
         Route::get('/add/customer', 'AddCustomer')->name('add.customer');
         Route::post('/store/customer', 'StoreCustomer')->name('store.customer');
-        Route::get('/edit/customer{id}', action: 'EditCustomer')->name('edit.customer');
+        Route::get('/edit/customer{id}',  'EditCustomer')->name('edit.customer');
         Route::post('/update/customer', 'UpdateCustomer')->name('update.customer');
-        Route::get('/delete/customer{id}', action: 'DeleteCustomer')->name('delete.customer');
-        Route::get('/show/deleted/customer', action: 'ShowDeletedCustomer')->name('show.deleted.customer');
-        Route::get('/restore/customer{id}', action: 'RestoreCustomer')->name('restore.customer');
-        Route::get('/delete/permanently/customer{id}', action: 'DeletePermanentlyCustomer')->name('delete.permanently.customer');
+        Route::get('/delete/customer{id}',  'DeleteCustomer')->name('delete.customer');
+        Route::get('/show/deleted/customer',  'ShowDeletedCustomer')->name('show.deleted.customer');
+        Route::get('/restore/customer{id}',  'RestoreCustomer')->name('restore.customer');
+        Route::get('/delete/permanently/customer{id}',  'DeletePermanentlyCustomer')->name('delete.permanently.customer');
     }); //end Route::controller(), Group
 
 
@@ -68,13 +68,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/all/supplier', 'AllSupplier')->name('all.supplier');
         Route::get('/add/supplier', 'AddSupplier')->name('add.supplier');
         Route::post('/store/supplier', 'StoreSupplier')->name('store.supplier');
-        Route::get('/edit/supplier{id}', action: 'EditSupplier')->name('edit.supplier');
+        Route::get('/edit/supplier{id}',  'EditSupplier')->name('edit.supplier');
         Route::post('/update/supplier', 'UpdateSupplier')->name('update.supplier');
-        Route::get('/delete/supplier{id}', action: 'DeleteSupplier')->name('delete.supplier');
-        Route::get('/show/deleted/supplier', action: 'ShowDeletedSupplier')->name('show.deleted.supplier');
-        Route::get('/restore/supplier{id}', action: 'RestoreSupplier')->name('restore.supplier');
-        Route::get('/delete/permanently/supplier{id}', action: 'DeletePermanentlySupplier')->name('delete.permanently.supplier');
-        Route::get('/details/supplier{id}', action: 'DetailsSupplier')->name('details.supplier');
+        Route::get('/delete/supplier{id}',  'DeleteSupplier')->name('delete.supplier');
+        Route::get('/show/deleted/supplier',  'ShowDeletedSupplier')->name('show.deleted.supplier');
+        Route::get('/restore/supplier{id}',  'RestoreSupplier')->name('restore.supplier');
+        Route::get('/delete/permanently/supplier{id}',  'DeletePermanentlySupplier')->name('delete.permanently.supplier');
+        Route::get('/details/supplier{id}',  'DetailsSupplier')->name('details.supplier');
     }); //end Route::controller(), Group
 
     // Product Category All Route
@@ -82,12 +82,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/all/product/category', 'AllProductCategory')->name('all.productCategory');
         Route::get('/add/product/category', 'AddProductCategory')->name('add.productCategory');
         Route::post('/store/product/category', 'StoreProductCategory')->name('store.productCategory');
-        Route::get('/edit/product/category{id}', action: 'EditProductCategory')->name('edit.productCategory');
+        Route::get('/edit/product/category{id}',  'EditProductCategory')->name('edit.productCategory');
         Route::post('/update/product/category', 'UpdateProductCategory')->name('update.productCategory');
-        Route::get('/delete/product/category{id}', action: 'DeleteProductCategory')->name('delete.productCategory');
-        Route::get('/show/deleted/product/category', action: 'ShowDeletedProductCategory')->name('show.deleted.productCategory');
-        Route::get('/restore/product/category{id}', action: 'RestoreProductCategory')->name('restore.productCategory');
-        Route::get('/delete/permanently/product/category{id}', action: 'DeletePermanentlyProductCategory')->name('delete.permanently.productCategory');
+        Route::get('/delete/product/category{id}',  'DeleteProductCategory')->name('delete.productCategory');
+        Route::get('/show/deleted/product/category',  'ShowDeletedProductCategory')->name('show.deleted.productCategory');
+        Route::get('/restore/product/category{id}',  'RestoreProductCategory')->name('restore.productCategory');
+        Route::get('/delete/permanently/product/category{id}',  'DeletePermanentlyProductCategory')->name('delete.permanently.productCategory');
     }); //end Route::controller(), Group
 
     // Product All Route
@@ -95,13 +95,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/all/product', 'AllProduct')->name('all.product');
         Route::get('/add/product', 'AddProduct')->name('add.product');
         Route::post('/store/product', 'StoreProduct')->name('store.product');
-        Route::get('/edit/product{id}', action: 'EditProduct')->name('edit.product');
-        Route::get('/barcode/product{id}', action: 'BarcodeProduct')->name('barcode.product');
+        Route::get('/edit/product{id}',  'EditProduct')->name('edit.product');
+        Route::get('/barcode/product{id}',  'BarcodeProduct')->name('barcode.product');
         Route::post('/update/product', 'UpdateProduct')->name('update.product');
-        Route::get('/delete/product{id}', action: 'DeleteProduct')->name('delete.product');
-        Route::get('/show/deleted/product', action: 'ShowDeletedProduct')->name('show.deleted.product');
-        Route::get('/restore/product{id}', action: 'RestoreProduct')->name('restore.product');
-        Route::get('/delete/permanently/product{id}', action: 'DeletePermanentlyProduct')->name('delete.permanently.product');
+        Route::get('/delete/product{id}',  'DeleteProduct')->name('delete.product');
+        Route::get('/show/deleted/product',  'ShowDeletedProduct')->name('show.deleted.product');
+        Route::get('/restore/product{id}',  'RestoreProduct')->name('restore.product');
+        Route::get('/delete/permanently/product{id}',  'DeletePermanentlyProduct')->name('delete.permanently.product');
+        Route::get('/import/product/page',  'ImportProductPage')->name('import.product.page');
+        Route::get('/export',  'ExportProduct')->name('export.product');
+        Route::post('/import',  'ImportProduct')->name('import.product');
     }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group

@@ -11,6 +11,9 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductExport;
+use App\Imports\ProductImport;
 
 class ProductController extends Controller
 {
@@ -230,4 +233,26 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         return view("backend.product.barcode_product", compact("product"));
     } //end method BarcodeProduct
+
+    public function ImportProductPage()
+    {
+        return view("backend.product.import_product");
+    } //end method ImportProduct
+    public function ExportProduct()
+    {
+        return Excel::download(new ProductExport, 'products.xlsx');
+    } //end method ImportProduct
+
+    public function ImportProduct(Request $request)
+    {
+        Excel::import(new ProductImport, $request->file('importProduct'));
+
+        $notification = [
+            'message' => 'Product Imported Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->back()->with($notification);
+    } //end method ImportProduct
+
 }

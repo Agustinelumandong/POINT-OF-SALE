@@ -46,9 +46,9 @@
                   <td>{{$item->supplierType}}</td>
                   <td>
 
-                    <a href="{{ route('edit.supplier', $item->id)}}" class="btn btn-blue rounded-pill waves-effect waves-light "><i class="mdi mdi-square-edit-outline"></i>Edit</a>
-                    <a href="{{ route('delete.supplier', $item->id)}}" id="delete" name="delete" class="btn btn-danger rounded-pill waves-effect waves-light "><i class="mdi mdi-delete"> </i>Delete</a>
-                    <a href="{{ route('details.supplier', $item->id)}}" class="btn btn-info rounded-pill waves-effect waves-light "><i class="mdi mdi-information-outline"></i>Details</a>
+                    <a href="{{ route('edit.supplier', $item->id)}}"><i class="fa-regular fa-pen-to-square fa-2xl"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('details.supplier', $item->id)}}"><i class="fa-regular fa-eye fa-2xl" style="color: #74C0FC;"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ route('delete.supplier', $item->id)}}" id="delete" name="delete"> <i class="fa-solid fa-trash-can fa-2xl" style="color: #ff0000;"></i></a>&nbsp;&nbsp;&nbsp;
                   </td>
 
                   @endforeach

@@ -137,6 +137,9 @@
                             <li>
                                 <a href="{{ route('show.deleted.product')}}">Deleted Products</a>
                             </li>
+                            <li>
+                                <a href="{{ route('import.product.page')}}">Import Products</a>
+                            </li>
 
                         </ul>
                     </div>
