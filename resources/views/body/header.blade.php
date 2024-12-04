@@ -168,7 +168,7 @@
 
         <!-- LOGO -->
         <div class="logo-box">
-            <a href="index.html" class="logo logo-dark text-center">
+            <a href="{{ url('/dashboard')}}" class="logo logo-dark text-center">
                 <span class="logo-sm">
                     <img src="{{ asset('backend/assets/images/pos-logo.png') }}" alt="" height="50">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->

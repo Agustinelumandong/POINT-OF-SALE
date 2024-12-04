@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\ProductCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ExpenseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/details/supplier{id}',  'DetailsSupplier')->name('details.supplier');
     }); //end Route::controller(), Group
 
+
     // Product Category All Route
     Route::controller(ProductCategoryController::class)->group(function () {
         Route::get('/all/product/category', 'AllProductCategory')->name('all.productCategory');
@@ -89,6 +91,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/restore/product/category{id}',  'RestoreProductCategory')->name('restore.productCategory');
         Route::get('/delete/permanently/product/category{id}',  'DeletePermanentlyProductCategory')->name('delete.permanently.productCategory');
     }); //end Route::controller(), Group
+
 
     // Product All Route
     Route::controller(ProductController::class)->group(function () {
@@ -105,6 +108,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/import/product/page',  'ImportProductPage')->name('import.product.page');
         Route::get('/export',  'ExportProduct')->name('export.product');
         Route::post('/import',  'ImportProduct')->name('import.product');
+    }); //end Route::controller(), Group
+
+
+    // Product Category All Route
+    Route::controller(ExpenseController::class)->group(function () {
+        Route::get('/add/expense', 'AddExpense')->name('add.expense');
+        Route::post('/store/expense', 'StoreExpense')->name('store.expense');
+        Route::get('/today/expense', 'TodayExpense')->name('today.expense');
+        Route::get('/edit/expense{id}', 'EditExpense')->name('edit.expense');
+        Route::post('/update/expense', 'UpdateExpense')->name('update.expense');
+        Route::get('/month/expense', 'MonthExpense')->name('month.expense');
+        Route::get('/year/expense', 'YearExpense')->name('year.expense');
     }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group
