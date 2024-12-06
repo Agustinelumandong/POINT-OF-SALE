@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function StoreProduct(Request $request)
     {
 
-        $productsCode = IdGenerator::generate(['table' => 'products', 'field' => 'productCode', 'length' => 8, 'prefix' => 'P']);
+        $productCode = IdGenerator::generate(['table' => 'products', 'field' => 'productCode', 'length' => 8, 'prefix' => 'P']);
 
         if ($request->file('productImage')) {
             $manager = new ImageManager(new Driver());
@@ -50,7 +50,7 @@ class ProductController extends Controller
                 'productName' => $request->productName,
                 'categoryID' => $request->categoryID,
                 'supplierID' => $request->supplierID,
-                'productCode' => $productsCode,
+                'productCode' => $productCode,
                 'productImage' => $save_url,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
@@ -78,10 +78,12 @@ class ProductController extends Controller
 
     public function UpdateProduct(Request $request)
     {
-        $product_id = $request->id;
+
+
+        $productID = $request->id;
 
         // Find the product record
-        $product = Product::findOrFail($product_id);
+        $product = Product::findOrFail($productID);
 
         // Check if a new image is being uploaded
         if ($request->file('productImage')) {
@@ -106,7 +108,7 @@ class ProductController extends Controller
                 'productName' => $request->productName,
                 'categoryID' => $request->categoryID,
                 'supplierID' => $request->supplierID,
-                'productCode' => $request->productCode,
+                // 'productCode' => $request->productCode,
                 'productImage' => $save_url,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
@@ -120,7 +122,7 @@ class ProductController extends Controller
                 'productName' => $request->productName,
                 'categoryID' => $request->categoryID,
                 'supplierID' => $request->supplierID,
-                'productCode' => $request->productCode,
+                // 'productCode' => $request->productCode,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
                 'buyingPrice' => $request->buyingPrice,

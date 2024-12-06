@@ -2880,6 +2880,14 @@ body[data-leftbar-color="gradient"]:not([data-layout-mode="detached"])
     text-align: center;
     max-height: 70px;
 }
+
+.navbar-custom .topnav-menu .nav-link .pos{
+    padding: auto !important;
+    max-height: auto !important;
+
+
+}
+
 .navbar-custom .dropdown .nav-link.show {
     background-color: rgba(255, 255, 255, 0.05);
 }

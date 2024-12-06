@@ -33,7 +33,6 @@
 
 
 
-
           <!-- <div class="col-sm-12 col-md-6">
             <div class="form-group mb-2">
               <label class="col-form-label pt-0" for="productCode">Product Code *</label>
@@ -47,7 +46,6 @@
                     </a>
                   </span>
                 </div>
-
               </div>
             </div>
           </div> -->
