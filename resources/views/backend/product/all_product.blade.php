@@ -31,12 +31,12 @@
               class="table dt-responsive nowrap w-100">
               <thead>
                 <tr>
-                  <th>ProductID</th>
+                  <th>Product Code</th>
                   <th>Product Image</th>
                   <th>Product Name</th>
                   <th>Product Category</th>
                   <th>Product Supplier</th>
-                  <th>Product Code</th>
+                  <th>Product Stock</th>
                   <th>Product Price</th>
                   <th>Action</th>
                 </tr>
@@ -45,12 +45,13 @@
               <tbody>
                 @foreach ( $product as $key=>$item)
                 <tr>
-                  <td>{{ $key+1 }}</td>
+                  <td>{{$item->productCode}}</td>
+                  <!-- <td>$key+1 </td> -->
                   <td><img src="{{asset($item->productImage)}}" style="width:50px; height:40px;"></td>
                   <td>{{$item->productName}}</td>
-                  <td>{{ $item['productCategory']['productCategoryName'] ?? 'N/A' }}</td>
-                  <td>{{ $item['productSupplier']['supplierName'] ?? 'N/A' }}</td>
-                  <td>{{$item->productCode}}</td>
+                  <td>{{ $item->productCategory->productCategoryName ?? 'N/A' }}</td>
+                  <td>{{ $item->supplier->supplierName ?? 'N/A' }}</td>
+                  <td>{{$item->productStock}}</td>
                   <td>{{$item->sellingPrice}}</td>
                   <td>
 

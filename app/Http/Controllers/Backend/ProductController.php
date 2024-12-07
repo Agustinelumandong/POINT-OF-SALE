@@ -21,15 +21,14 @@ class ProductController extends Controller
     public function AllProduct()
     {
         $product = Product::latest()->get();
-
         return view("backend.product.all_product", compact("product"));
     } //end method AllProduct
 
     public function AddProduct()
     {
-        $productCategory = ProductCategory::latest()->get();
-        $productSupplier = Supplier::latest()->get();
-        return view("backend.product.add_product", compact("productCategory", "productSupplier"));
+        $product_categories_id = ProductCategory::latest()->get();
+        $suppliers_id = Supplier::latest()->get();
+        return view("backend.product.add_product", compact("product_categories_id", "suppliers_id"));
     } //end method AddProduct
 
     public function StoreProduct(Request $request)
@@ -57,10 +56,11 @@ class ProductController extends Controller
 
             Product::create([
                 'productName' => $request->productName,
-                'categoryID' => $request->categoryID,
-                'supplierID' => $request->supplierID,
+                'product_categories_id' => $request->product_categories_id,
+                'suppliers_id' => $request->suppliers_id,
                 'productCode' => $productCode,
                 'productImage' => $save_url,
+                'productStock' => $request->productStock,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
                 'buyingPrice' => $request->buyingPrice,
@@ -80,14 +80,13 @@ class ProductController extends Controller
     public function EditProduct($id)
     {
         $product = Product::findOrFail($id);
-        $productCategory = ProductCategory::latest()->get();
-        $productSupplier = Supplier::latest()->get();
-        return view("backend.product.edit_product", compact("product", "productCategory", "productSupplier"));
+        $product_categories_id = ProductCategory::latest()->get();
+        $suppliers_id = Supplier::latest()->get();
+        return view("backend.product.edit_product", compact("product", "product_categories_id", "suppliers_id"));
     } //end method EditProduct
 
     public function UpdateProduct(Request $request)
     {
-
 
         $productID = $request->id;
 
@@ -115,8 +114,8 @@ class ProductController extends Controller
             // Update the product record with the new image
             $product->update([
                 'productName' => $request->productName,
-                'categoryID' => $request->categoryID,
-                'supplierID' => $request->supplierID,
+                'product_categories_id' => $request->product_categories_id,
+                'suppliers_id' => $request->suppliers_id,
                 // 'productCode' => $request->productCode,
                 'productImage' => $save_url,
                 'buyingDate' => $request->buyingDate,
@@ -129,8 +128,8 @@ class ProductController extends Controller
             // If no new image, just update other fields
             $product->update([
                 'productName' => $request->productName,
-                'categoryID' => $request->categoryID,
-                'supplierID' => $request->supplierID,
+                'product_categories_id' => $request->product_categories_id,
+                'suppliers_id' => $request->suppliers_id,
                 // 'productCode' => $request->productCode,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
@@ -147,6 +146,8 @@ class ProductController extends Controller
 
         return redirect()->route('all.product')->with($notification);
     } //end method UpdateProduct
+
+
 
     public function DeleteProduct($id)
     {

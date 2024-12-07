@@ -13,14 +13,14 @@ class Product extends Model
 
     protected $guarded = [];
 
-    public function productCategory()
+    public function ProductCategory()
     {
-        return $this->belongsTo(ProductCategory::class, 'categoryID', 'id');
+        return $this->belongsTo(ProductCategory::class, 'product_categories_id', 'id');
     } //end method category
 
-    public function productSupplier()
+    public function Supplier()
     {
-        return $this->belongsTo(Supplier::class, 'supplierID', 'id');
+        return $this->belongsTo(Supplier::class, 'suppliers_id', 'id');
     } //end method supplier
 
 }

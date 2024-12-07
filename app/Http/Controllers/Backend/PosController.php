@@ -120,4 +120,14 @@ class PosController extends Controller
         Cart::update($rowId, $item->qty + 1);
         return response()->json(['success' => true, 'message' => 'Product Quantity Incremented Successfully']);
     }
+
+    public function CartDestroy($rowId)
+    {
+        Cart::destroy($rowId);
+        $notification = array(
+            'message' => 'All Cart Removed Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    } // End Method
 }

@@ -31,49 +31,22 @@
             </div>
           </div>
 
-
-
-          <!-- <div class="col-sm-12 col-md-6">
+          <div class=" col-sm-12 col-md-6">
             <div class="form-group mb-2">
-              <label class="col-form-label pt-0" for="productCode">Product Code *</label>
-              <div class="input-group">
-                <div class="input-group-prepend"></div>
-                <input type="text" class="form-control " id="productCode">
-                <div class="input-group-append">
-                  <span class="input-group-text ">
-                    <a class="btn btn-link p-0 m-0">
-                      <i class="fa-solid fa-qrcode"></i>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-
-          <div class="col-sm-12 col-md-6">
-            <div class="form-group mb-2">
-              <label class="form-label pt-0" for="productSupplier">Product Supplier *</label>
-              <select name="supplierID" id="productSupplier" class="form-select">
-                <option selected disabled>Select Supplier</option>
-                @foreach ($productSupplier as $supplier)
-                <option value=" {{ $supplier->id}}">{{ $supplier->supplierName}}</option>
-                @endforeach
-              </select>
-
+              <label class="form-label pt-0" id="expireDate">Product Expire Date *</label>
+              <input id="expireDate" name="expireDate" type="date" class="form-control">
             </div>
           </div>
 
           <div class="col-sm-12 col-md-6">
             <div class="form-group mb-2">
-              <label class="form-label pt-0" for="productCategory">Product Category *</label>
-              <select name="categoryID" id="productCategory" class="form-select ">
+              <label class="form-label pt-0" for="product_categories_id">Product Category *</label>
+              <select name="product_categories_id" id="product_categories_id" class="form-select ">
                 <option selected disabled>Select Category</option>
-                @foreach ($productCategory as $category)
+                @foreach ($product_categories_id as $category)
                 <option value=" {{ $category->id}}">{{ $category->productCategoryName}}</option>
                 @endforeach
               </select>
-
             </div>
           </div>
 
@@ -81,29 +54,39 @@
             <div class="form-group mb-2">
               <label class="form-label pt-0" id="buyingDate">Product Buying Date *</label>
               <input id="buyingDate" name="buyingDate" type="date" class="form-control">
-
             </div>
           </div>
 
-          <div class=" col-sm-12 col-md-6">
+          <div class="col-sm-12 col-md-6">
             <div class="form-group mb-2">
-              <label class="form-label pt-0" id="expireDate">Product Expire Date *</label>
-              <input id="expireDate" name="expireDate" type="date" class="form-control">
-
+              <label class="form-label pt-0" for="suppliers_id">Product Supplier *</label>
+              <select name="suppliers_id" id="suppliers_id" class="form-select">
+                <option selected disabled>Select Supplier</option>
+                @foreach ($suppliers_id as $supplier)
+                <option value=" {{ $supplier->id}}">{{ $supplier->supplierName}}</option>
+                @endforeach
+              </select>
             </div>
           </div>
+
           <div class=" col-sm-12 col-md-6">
             <div class="form-group mb-2">
               <label class="form-label pt-0" id="buyingPrice">Product Buying Price *</label>
               <input id="buyingPrice" name="buyingPrice" type="text" class="form-control">
-
             </div>
           </div>
+
+          <div class=" col-sm-12 col-md-6">
+            <div class="form-group mb-2">
+              <label class="form-label pt-0" id="productStock">Product Stock *</label>
+              <input id="productStock" name="productStock" type="text" class="form-control">
+            </div>
+          </div>
+
           <div class=" col-sm-12 col-md-6">
             <div class="form-group mb-2">
               <label class="form-label pt-0" id="sellingPrice">Product Selling Price *</label>
               <input id="sellingPrice" name="sellingPrice" type="text" class="form-control">
-
             </div>
           </div>
 
@@ -111,7 +94,6 @@
             <div class="form-group mb-2">
               <label class="form-label pt-0 " for="image">Product Image *</label>
               <input id="image" name="productImage" type="file" class="form-control">
-
             </div>
           </div>
 
@@ -136,10 +118,10 @@
         productName: {
           required: true,
         },
-        categoryID: {
+        product_categories_id: {
           required: true,
         },
-        supplierID: {
+        suppliers_id: {
           required: true,
         },
         buyingDate: {
@@ -168,10 +150,10 @@
         productName: {
           required: 'Please Enter Product Name',
         },
-        categoryID: {
+        product_categories_id: {
           required: 'Please Select Category',
         },
-        supplierID: {
+        suppliers_id: {
           required: 'Please Select Supplier',
         },
 

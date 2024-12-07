@@ -11,8 +11,17 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <style>
+  #product-col {
+    height: 100% !important;
+  }
+
   #pos-column {
     height: 100% !important;
+  }
+
+  .pos-right-side {
+    height: 810px !important;
+    margin-bottom: 24px !important;
   }
 
   .pos-left-side {
@@ -126,54 +135,52 @@ use Gloudemans\Shoppingcart\Facades\Cart;
               <h3 class="p-1">Total Payable : {{ Cart::total() }}</h3>
             </div>
 
-            <button type="submit" class="btn btn-success rounded-pill ">DONE</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup-modal">Dones</button>
+            <a href="{{ url('/cart-destroy') }}">
+              <button type="button" class="btn btn-danger">Remove All</button>
+            </a>
 
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#signup-modal">Pay Now</button>
           </div>
         </div>
         <!-- end card -->
       </div>
       <!-- end col-->
 
-
-
-
-
-
-
-      <div class="col-lg-7 col-xl-7">
-        <div class="card">
+      <div class="col-lg-7 col-xl-7" id="product-col">
+        <div class="card pos-right-side">
           <div class="card-body">
             <!-- Search control -->
             <div class="mb-3">
-              <input type="text" id="product-search" class="form-control" placeholder="Search by name, category, price or product code...">
+              <input type="text" autocomplete="" aria-autocomplete="" id="product-search" class="form-control" placeholder="Search by name, category, price or product code...">
             </div>
 
             <div class="tab-pane" id="settings">
               <div id="product-grid" class="row">
                 @foreach($product as $key => $item)
-                <div class="col-md-3 product-item mb-3 btn-hover-zoom clickable" onclick="document.getElementById('form-{{ $item->id }}').submit();"
+                <div class="col-md-3 product-item mb-3 btn-hover-zoom"
                   data-name="{{ strtolower($item->productName) }}"
                   data-category="{{ strtolower($item['productCategory']['productCategoryName'] ?? '') }}"
                   data-price="{{ $item->sellingPrice }}"
                   data-code="{{ strtolower($item->productCode) }}">
-                  <form id="form-{{ $item->id }}" method="post" action="{{ url('/add-cart') }}">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $item->productCode }}">
-                    <input type="hidden" name="name" value="{{ $item->productName }}">
-                    <input type="hidden" name="qty" value="1">
-                    <input type="hidden" name="price" value="{{ $item->sellingPrice }}">
+                  <div class="clickable" onclick="submitForm('{{ $item->id }}');">
+                    <form id="form-{{ $item->id }}" method="post" action="{{ url('/add-cart') }}">
+                      @csrf
+                      <input type="hidden" name="id" value="{{ $item->id }}">
+                      <input type="hidden" name="name" value="{{ $item->productName }}">
+                      <input type="hidden" name="qty" value="1">
+                      <input type="hidden" name="price" value="{{ $item->sellingPrice }}">
 
-                    <div class="card z-depth-0" style="width: 100%; height: 100%; padding:10px 0 10px 0;">
-                      <img class="card-img-top img-fluid" src="{{ asset($item->productImage) }}"
-                        alt="Card image cap" style="height: 150px; object-fit: cover;">
-                      <div class="card-body mb-0 pb-0">
-                        <h5 class="card-title m-0">{{ htmlspecialchars($item->productName) }}</h5>
-                        <p class="text-muted">{{ $item->productCode }}</p>
-                        <p class="card-text badge bg-success p-1">₱ {{ number_format($item->sellingPrice, 2) }}</p>
+                      <div class="card z-depth-0" style="width: 100%; height: 100%; padding:10px 0 10px 0;">
+                        <img class="card-img-top img-fluid" src="{{ asset($item->productImage) }}"
+                          alt="Card image cap" style="height: 150px; object-fit: cover;">
+                        <div class="card-body mb-0 pb-0">
+                          <h5 class="card-title m-0">{{ htmlspecialchars($item->productName) }}</h5>
+                          <p class="text-muted">{{ $item->productCode }}</p>
+                          <p class="card-text badge bg-success p-1">₱ {{ number_format($item->sellingPrice, 2) }}</p>
+                        </div>
                       </div>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
                 </div>
                 @endforeach
               </div>
@@ -268,7 +275,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
                 </div>
               </div>
 
-              <form id="complete-order-form" method="post" action="{{ route('complete.order') }}">
+              <form id="complete-order-form" method="post" action="{{ url('/complete-order') }}">
                 @csrf
                 <input type="text" name="customers_id" id="modal_customers_id" value="Walk-in-Customer"> <!-- Set default value -->
                 <input type="hidden" name="orderDate" value="{{ date('d-F-Y') }}">
@@ -346,6 +353,9 @@ use Gloudemans\Shoppingcart\Facades\Cart;
     var $items = $('.product-item');
     var filteredItems = $items;
 
+    // Add this to verify items are being found
+    console.log('Total items found:', $items.length);
+
     function createPaginationButtons(totalPages) {
       var $pagination = $('.pagination');
       var $pageNumbers = $pagination.find('.page-number');
@@ -410,32 +420,47 @@ use Gloudemans\Shoppingcart\Facades\Cart;
     }
 
     // Handle search functionality
+    // Handle search functionality
     $('#product-search').on('keyup', function() {
-      var searchText = $(this).val().toLowerCase();
+      var searchText = $(this).val().toLowerCase().trim();
+      console.log('Search text:', searchText); // Debug log
 
       filteredItems = $items.filter(function() {
         var $item = $(this);
-        var name = $item.data('name');
-        var category = $item.data('category');
-        var price = $item.data('price').toString();
-        var code = $item.data('code'); // Added product code to search
 
-        return name.includes(searchText) ||
-          category.includes(searchText) ||
-          price.includes(searchText) ||
-          code.includes(searchText); // Added product code to search  
+        // Debug log
+        console.log('Item data:', {
+          name: $item.data('name'),
+          category: $item.data('category'),
+          price: $item.data('price'),
+          code: $item.data('code')
+        });
+
+        // Get the data attributes with null checks
+        var name = ($item.data('name') || '').toString().toLowerCase();
+        var category = ($item.data('category') || '').toString().toLowerCase();
+        var price = ($item.data('price') || '').toString().toLowerCase();
+        var code = ($item.data('code') || '').toString().toLowerCase();
+
+        // Check if any field matches the search text
+        var nameMatch = name.includes(searchText);
+        var categoryMatch = category.includes(searchText);
+        var priceMatch = price.includes(searchText);
+        var codeMatch = code.includes(searchText);
+
+        return nameMatch || categoryMatch || priceMatch || codeMatch;
       });
 
       currentPage = 1;
       updatePagination();
 
+      // Show/hide no results message
       if (filteredItems.length === 0) {
-        if ($('#no-results').length === 0) {
-          $('#product-grid').append(
-            '<div id="no-results" class="col-12 text-center">' +
-            '<p>No products found matching your search.</p></div>'
-          );
-        }
+        $('#no-results').remove();
+        $('#product-grid').append(
+          '<div id="no-results" class="col-12 text-center mt-4">' +
+          '<p class="text-muted">No products found matching your search.</p></div>'
+        );
       } else {
         $('#no-results').remove();
       }
@@ -505,6 +530,12 @@ use Gloudemans\Shoppingcart\Facades\Cart;
       $('#modal_customers_id').val(selectedCustomerId);
     });
   });
+</script>
+
+<script>
+  function submitForm(id) {
+    document.getElementById('form-' + id).submit();
+  }
 </script>
 
 @livewireScripts

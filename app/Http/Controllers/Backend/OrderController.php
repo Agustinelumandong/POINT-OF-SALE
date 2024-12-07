@@ -34,7 +34,6 @@ class OrderController extends Controller
             $customerID = $request->customers_id; // This should be an integer
         }
 
-        // Ensure you are using the correct variable for customers_id
         $order = [
             'customers_id' => $customerID, // Use $customerID here
             'orderDate' => Carbon::createFromFormat('d-F-Y', $request->orderDate)->format('Y-m-d H:i:s'), // Ensure correct date format
@@ -68,6 +67,8 @@ class OrderController extends Controller
             'message' => 'Order Created Successfully',
             'alert-type' => 'success'
         ];
+
+        Cart::destroy();
 
         return redirect()->route('pos')->with($notification);
     }
