@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 
 
 class OrderController extends Controller
@@ -49,12 +50,12 @@ class OrderController extends Controller
             'created_at' => Carbon::now(),
         ];
 
-        $order_id = Order::insertGetId($order);
+        $orders_id = Order::insertGetId($order);
         $contents = Cart::content();
 
         foreach ($contents as $content) {
             $productData = [
-                'orders_id' => $order_id,
+                'orders_id' => $orders_id,
                 'products_id' => $content->id,
                 'quantity' => $content->qty,
                 'unitCost' => $content->price,
@@ -71,5 +72,50 @@ class OrderController extends Controller
         Cart::destroy();
 
         return redirect()->route('pos')->with($notification);
-    }
+    } //end method CompleteOrder
+
+    public function UnpaidOrder()
+    {
+        $orders = Order::where('orderStatus', 'Unpaid')->get();
+        return view('backend.order.pending_order', compact('orders'));
+    } //end method UnpaidOrder
+
+    public function OrderDetails($orders_id)
+    {
+        $order = Order::where('id', $orders_id)->first();
+        $orderItem = OrderDetails::with('product')->where('orders_id', $orders_id)->orderBy('id', 'DESC')->get();
+        return view('backend.order.order_details', compact('order', 'orderItem'));
+    } // End Method 
+
+    public function OrderStatusUpdate(Request $request)
+    {
+        $order_id = $request->id;
+
+        $product = OrderDetails::where('orders_id', $order_id)->get();
+        foreach ($product as $item) {
+            Product::where('id', $item->products_id)
+                ->update(['productStock' => DB::raw('productStock-' . $item->quantity)]);
+        }
+
+        Order::findOrFail($order_id)->update(['orderStatus' => 'complete']);
+
+        $notification = array(
+            'message' => 'Order Done Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('unpaid.order')->with($notification);
+    } // End Method
+
+    public function PaidOrder()
+    {
+        $orders = Order::where('orderStatus', 'PAID')->get();
+        return view('backend.order.paid_order', compact('orders'));
+    } //end method PaidOrder
+    public function StockManage()
+    {
+        $products = Product::latest()->get();
+        return view('backend.stock.all_stock', compact('products'));
+    } // End Method 
+
 } //end class OrderController

@@ -49,7 +49,7 @@
                   <!-- <td>$key+1 </td> -->
                   <td><img src="{{asset($item->productImage)}}" style="width:50px; height:40px;"></td>
                   <td>{{$item->productName}}</td>
-                  <td>{{ $item->productCategory->productCategoryName ?? 'N/A' }}</td>
+                  <td>{{$item->productCategory->productCategoryName ?? 'N/A' }}</td>
                   <td>{{ $item->supplier->supplierName ?? 'N/A' }}</td>
                   <td>{{$item->productStock}}</td>
                   <td>{{$item->sellingPrice}}</td>

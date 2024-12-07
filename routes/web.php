@@ -140,6 +140,13 @@ Route::middleware('auth')->group(function () {
     // Order Route
     Route::controller(OrderController::class)->group(function () {
         Route::post('/complete-order', 'CompleteOrder')->name('complete.order');
+        Route::get('/pending-order', 'UnpaidOrder')->name('unpaid.order');
+        Route::get('/paid-order', 'PaidOrder')->name('paid.order');
+
+        Route::get('/order/details/{orders_id}', 'OrderDetails')->name('order.details');
+        Route::post('/order/status/update', 'OrderStatusUpdate')->name('order.status.update');
+
+        Route::get('/stock', 'StockManage')->name('stock.manage');
     }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group

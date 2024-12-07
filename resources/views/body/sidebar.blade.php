@@ -165,6 +165,41 @@
                         </ul>
                     </div>
                 </li>
+
+                <li>
+                    <a href="#sidebarOrders" data-bs-toggle="collapse">
+                        <i class="mdi mdi-cart-outline"></i>
+                        <span> Orders </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarOrders">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('unpaid.order')}}">Pending Orders</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('paid.order')}}">Complete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="#stock" data-bs-toggle="collapse">
+                        <i class="mdi mdi-email-multiple-outline"></i>
+                        <span> Stock Manage </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="stock">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('stock.manage') }}">Stock </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+
                 <li>
                     <a href="#sidebarCrm" data-bs-toggle="collapse">
                         <i class="mdi mdi-account-multiple-outline"></i>
@@ -184,24 +219,7 @@
                     </div>
                 </li>
 
-                <li>
-                    <a href="#sidebarEmail" data-bs-toggle="collapse">
-                        <i class="mdi mdi-email-multiple-outline"></i>
-                        <span> Email </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarEmail">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="email-inbox.html">Inbox</a>
-                            </li>
-                            <li>
-                                <a href="email-read.html">Read Email</a>
-                            </li>
 
-                        </ul>
-                    </div>
-                </li>
 
                 <li class="menu-title mt-2">Others</li>
 

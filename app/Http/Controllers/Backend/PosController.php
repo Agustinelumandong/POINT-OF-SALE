@@ -19,9 +19,11 @@ class PosController extends Controller
         $cartItems = Cart::content();
         // Retrieve all customers
         $customers = Customer::latest()->get();
+        $customer = Customer::all();
+
 
         // Pass the data to the view
-        return view('backend.pos.pos_page', compact('product', 'customers', 'products', 'cartItems'));
+        return view('backend.pos.pos_page', compact('product', 'customers', 'products', 'cartItems', 'customer'));
     }
 
     public function AddCart(Request $request)
@@ -74,7 +76,7 @@ class PosController extends Controller
     public function CreateInvoice(Request $request)
     {
 
-        if ($request->customerID == 'walk-in') {
+        if ($request->customerID == 'Walk-in-Customer') {
 
             $customer = new Customer();
             $customer->customerName = 'Walk-in-Customer';

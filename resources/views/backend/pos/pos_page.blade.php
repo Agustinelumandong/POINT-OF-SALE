@@ -74,7 +74,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
                     <select name="customer_id" id="Customer" class="form-select rounded" style="cursor: pointer;">
                       <option value="Walk-in-Customer" selected>Walk-In-Customer</option>
                       @foreach ($customers as $customer)
-                      @if(strtolower($customer->customerName) !== 'walk-in-customer')
+                      @if(strtolower($customer->customerName) !== 'walk-in-customer' && strtolower($customer->customerName) !== 'walk-in customer')
                       <option value="{{ $customer->id }}">{{ $customer->customerName }}</option>
                       @endif
                       @endforeach
@@ -251,35 +251,39 @@ use Gloudemans\Shoppingcart\Facades\Cart;
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <fieldset class="form-group">
-                    <legend class="col-form-label pt-0">Payment</legend>
-                    <select name="payment_status" class="form-select" id="payment_status">
-                      <option selected disabled>Select Payment</option>
-                      <option value="Cash">Cash</option>
-                      <option value="Cheque">Gcash</option>
-                      <option value="Due">Due</option>
-                    </select>
-                    <div class="invalid-feedback"></div>
-                  </fieldset>
-                  <fieldset class="form-group">
-                    <legend class="col-form-label pt-0">Received Amount *</legend>
-                    <input type="text" placeholder="Received Amount" class="form-control" id="received_amount">
-                    <div class="invalid-feedback"></div>
-                  </fieldset>
-                  <div>
-                    <label>Change Return:</label>
-                    <p class="change_amount">0.00</p>
-                  </div>
-                </div>
-              </div>
-
               <form id="complete-order-form" method="post" action="{{ url('/complete-order') }}">
                 @csrf
+                <div class="row">
+                  <div class="col-md-12">
+                    <fieldset class="form-group">
+                      <legend class="col-form-label pt-0">Payment</legend>
+                      <select name="payment_status" class="form-select" id="payment_status" name="payment_status">
+                        <option selected disabled>Select Payment</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Gcash">Gcash</option>
+                        <option value="Due">Due</option>
+                      </select>
+                      <div class="invalid-feedback"></div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                      <legend class="col-form-label pt-0">Received Amount *</legend>
+                      <input type="text" placeholder="Received Amount" class="form-control" id="pay" name="pay">
+                      <div class="invalid-feedback"></div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                      <legend class="col-form-label pt-0">Due Amount *</legend>
+                      <input type="text" placeholder="Due Amount" class="form-control" id="due" name="due">
+                      <div class="invalid-feedback"></div>
+                    </fieldset>
+                    <div>
+                      <label>Change Return:</label>
+                      <p class="change_amount">0.00</p>
+                    </div>
+                  </div>
+                </div>
                 <input type="text" name="customers_id" id="modal_customers_id" value="Walk-in-Customer"> <!-- Set default value -->
                 <input type="hidden" name="orderDate" value="{{ date('d-F-Y') }}">
-                <input type="hidden" name="orderStatus" value="pending">
+                <input type="hidden" name="orderStatus" value="Unpaid">
                 <input type="hidden" name="totalProducts" value="{{ Cart::count() }}">
                 <input type="hidden" name="subTotal" value="{{ Cart::subtotal() }}">
                 <input type="hidden" name="vat" value="{{ Cart::tax() }}">
@@ -305,8 +309,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 <script>
   document.getElementById('complete-order-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent default form submission
-
     // Submit the form using POST
     this.submit();
   });
