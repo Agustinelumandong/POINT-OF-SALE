@@ -52,244 +52,243 @@ use Gloudemans\Shoppingcart\Facades\Cart;
     <!-- end page title -->
 
     <div class="row">
-      <form class="row" method="POST" action="{{ url('/create-invoice') }}">
-        @csrf
-        <div class="col-lg-5 col-xl-5 " id="pos-column">
-          <div class="card pos-left-side">
-            <div class="card-body">
 
-              <!-- //Customer View -->
-              <div class="Customer">
-                <div class="col-sm-12 col-md-12">
-                  <div class="form-group mb-2">
-                    <div role="group" class="input-group">
-                      <select name="customerID" id="Customer" class="form-select rounded" style="cursor: pointer;">
-                        <option value="walk-in" selected>Walk-In-Customer</option>
-                        @foreach ($customer as $customers)
-                        @if(strtolower($customers->customerName) !== 'walk-in-customer')
-                        <option value="{{ $customers->id }}">{{ $customers->customerName }}</option>
-                        @endif
-                        @endforeach
-                      </select>
-                      <a href="{{ route('add.customer')}}"><button type="button" class="btn btn-success "><i class="fa-solid fa-plus"></i></button>
-                    </div></a>
-                  </div>
-                </div>
-              </div>
+      <div class="col-lg-5 col-xl-5 " id="pos-column">
+        <div class="card pos-left-side">
+          <div class="card-body">
 
-              <!-- //Product Detail -->
-              <div class="pos-detail">
-                <div class="table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col" class="text-center">Qty</th>
-                        <th scope="col" class="text-center">Subtotal</th>
-                        <th scope="col" class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    @php
-                    $cartAll = Cart::content();
-                    @endphp
-                    <tbody>
-                      @foreach($cartAll as $item)
-                      <tr>
-                        <td><span>{{$item->name}}</span> <br> <span class="badge bg-success">{{$item->id}}</span></td>
-                        <td>₱ {{$item->price}}</td>
-                        <td>
-                          <form method="post" action="{{ url('/cart-update/'.$item->rowId) }}">
-                            @csrf
-                            <div class="quantity">
-                              <div role="group" class="input-group">
-                                <!-- <button type="button" class="btn btn-success btn-sm btn-decrement">-</button> -->
-                                <input type="number" class="form-control quantity-input" value="{{$item->qty}}" min="1" style="width:5px ;" name="qty">
-                                <button type="submit" class="btn btn-success btn-sm btn-increment">+</button>
-                              </div>
-                            </div>
-                          </form>
-                        </td>
-                        <td class="text-center">₱ {{$item->subtotal}}</td>
-                        <!-- data-id=" $item->id " -->
-                        <td>
-                          <a href="{{ url('/cart-remove/'.$item->rowId) }}" title="Delete" class=" cursor-pointer"><i class="fas fa-trash-alt fa-2x text-danger cursor-pointer"></i></a>
-                        </td>
-                      </tr>
+            <!-- //Customer View -->
+            <div class="Customer">
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group mb-2">
+                  <div role="group" class="input-group">
+                    <select name="customer_id" id="Customer" class="form-select rounded" style="cursor: pointer;">
+                      <option value="Walk-in-Customer" selected>Walk-In-Customer</option>
+                      @foreach ($customers as $customer)
+                      @if(strtolower($customer->customerName) !== 'walk-in-customer')
+                      <option value="{{ $customer->id }}">{{ $customer->customerName }}</option>
+                      @endif
                       @endforeach
-                    </tbody>
-                  </table>
+                    </select>
+                    <a href="{{ route('add.customer')}}"><button type="button" class="btn btn-success "><i class="fa-solid fa-plus"></i></button>
+                  </div></a>
                 </div>
               </div>
-
-              <br>
-              <div class="bg-success text-center m-1 container-fluid	">
-                <h3 class="p-1">Total Payable : {{ Cart::total() }}</h3>
-              </div>
-
-              <button type="submit" class="btn btn-success rounded-pill ">DONE</button>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup-modal">Dones</button>
-
             </div>
-          </div>
-          <!-- end card -->
-        </div>
-        <!-- end col-->
 
-
-
-
-
-
-
-        <div class="col-lg-7 col-xl-7">
-          <div class="card">
-            <div class="card-body">
-              <!-- Search control -->
-              <div class="mb-3">
-                <input type="text" id="product-search" class="form-control" placeholder="Search by name, category, price or product code...">
+            <!-- //Product Detail -->
+            <div class="pos-detail">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Product</th>
+                      <th scope="col">Price</th>
+                      <th scope="col" class="text-center">Qty</th>
+                      <th scope="col" class="text-center">Subtotal</th>
+                      <th scope="col" class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  @php
+                  $cartAll = Cart::content();
+                  @endphp
+                  <tbody>
+                    @foreach($cartAll as $item)
+                    <tr>
+                      <td><span>{{$item->name}}</span> <br> <span class="badge bg-success">{{$item->id}}</span></td>
+                      <td>₱ {{$item->price}}</td>
+                      <td>
+                        <form method="post" action="{{ url('/cart-update/'.$item->rowId) }}">
+                          @csrf
+                          <div class="quantity">
+                            <div role="group" class="input-group">
+                              <!-- <button type="button" class="btn btn-success btn-sm btn-decrement">-</button> -->
+                              <input type="number" class="form-control quantity-input" value="{{$item->qty}}" min="1" style="width:5px ;" name="qty">
+                              <button type="submit" class="btn btn-success btn-sm btn-increment">+</button>
+                            </div>
+                          </div>
+                        </form>
+                      </td>
+                      <td class="text-center">₱ {{$item->subtotal}}</td>
+                      <!-- data-id=" $item->id " -->
+                      <td>
+                        <a href="{{ url('/cart-remove/'.$item->rowId) }}" title="Delete" class=" cursor-pointer"><i class="fas fa-trash-alt fa-2x text-danger cursor-pointer"></i></a>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
+            </div>
 
-              <div class="tab-pane" id="settings">
-                <div id="product-grid" class="row">
-                  @foreach($product as $key => $item)
-                  <div class="col-md-3 product-item mb-3 btn-hover-zoom clickable" onclick="document.getElementById('form-{{ $item->id }}').submit();"
-                    data-name="{{ strtolower($item->productName) }}"
-                    data-category="{{ strtolower($item['productCategory']['productCategoryName'] ?? '') }}"
-                    data-price="{{ $item->sellingPrice }}"
-                    data-code="{{ strtolower($item->productCode) }}">
-                    <form id="form-{{ $item->id }}" method="post" action="{{ url('/add-cart') }}">
-                      @csrf
-                      <input type="hidden" name="id" value="{{ $item->productCode }}">
-                      <input type="hidden" name="name" value="{{ $item->productName }}">
-                      <input type="hidden" name="qty" value="1">
-                      <input type="hidden" name="price" value="{{ $item->sellingPrice }}">
+            <br>
+            <div class="bg-success text-center m-1 container-fluid	">
+              <h3 class="p-1">Total Payable : {{ Cart::total() }}</h3>
+            </div>
 
-                      <div class="card z-depth-0" style="width: 100%; height: 100%; padding:10px 0 10px 0;">
-                        <img class="card-img-top img-fluid" src="{{ asset($item->productImage) }}"
-                          alt="Card image cap" style="height: 150px; object-fit: cover;">
-                        <div class="card-body mb-0 pb-0">
-                          <h5 class="card-title m-0">{{ htmlspecialchars($item->productName) }}</h5>
-                          <p class="text-muted">{{ $item->productCode }}</p>
-                          <p class="card-text badge bg-success p-1">₱ {{ number_format($item->sellingPrice, 2) }}</p>
-                        </div>
+            <button type="submit" class="btn btn-success rounded-pill ">DONE</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup-modal">Dones</button>
+
+          </div>
+        </div>
+        <!-- end card -->
+      </div>
+      <!-- end col-->
+
+
+
+
+
+
+
+      <div class="col-lg-7 col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <!-- Search control -->
+            <div class="mb-3">
+              <input type="text" id="product-search" class="form-control" placeholder="Search by name, category, price or product code...">
+            </div>
+
+            <div class="tab-pane" id="settings">
+              <div id="product-grid" class="row">
+                @foreach($product as $key => $item)
+                <div class="col-md-3 product-item mb-3 btn-hover-zoom clickable" onclick="document.getElementById('form-{{ $item->id }}').submit();"
+                  data-name="{{ strtolower($item->productName) }}"
+                  data-category="{{ strtolower($item['productCategory']['productCategoryName'] ?? '') }}"
+                  data-price="{{ $item->sellingPrice }}"
+                  data-code="{{ strtolower($item->productCode) }}">
+                  <form id="form-{{ $item->id }}" method="post" action="{{ url('/add-cart') }}">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $item->productCode }}">
+                    <input type="hidden" name="name" value="{{ $item->productName }}">
+                    <input type="hidden" name="qty" value="1">
+                    <input type="hidden" name="price" value="{{ $item->sellingPrice }}">
+
+                    <div class="card z-depth-0" style="width: 100%; height: 100%; padding:10px 0 10px 0;">
+                      <img class="card-img-top img-fluid" src="{{ asset($item->productImage) }}"
+                        alt="Card image cap" style="height: 150px; object-fit: cover;">
+                      <div class="card-body mb-0 pb-0">
+                        <h5 class="card-title m-0">{{ htmlspecialchars($item->productName) }}</h5>
+                        <p class="text-muted">{{ $item->productCode }}</p>
+                        <p class="card-text badge bg-success p-1">₱ {{ number_format($item->sellingPrice, 2) }}</p>
                       </div>
-                    </form>
-                  </div>
-                  @endforeach
+                    </div>
+                  </form>
                 </div>
+                @endforeach
+              </div>
 
-                <!-- Pagination controls -->
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <nav aria-label="Product navigation">
-                    <ul class="pagination mb-0">
-                      <li class="page-item" id="prev-page">
-                        <a class="page-link" href="#" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                      <li class="page-item page-number active" data-page="1"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item" id="next-page">
-                        <a class="page-link" href="#" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
+              <!-- Pagination controls -->
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <nav aria-label="Product navigation">
+                  <ul class="pagination mb-0">
+                    <li class="page-item" id="prev-page">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item page-number active" data-page="1"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item" id="next-page">
+                      <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </div>
           </div>
         </div>
-        <!-- end col -->
+      </div>
+      <!-- end col -->
 
-        <!-- Modal content -->
-        <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <header class="modal-header">
-                <h5 class="modal-title">Create Payment</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
-              </header>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6 mt-4">
-                    <p><strong>Order Date : </strong> <span class="float-end"> &nbsp;&nbsp;&nbsp;&nbsp; Jan 17, 2024</span></p>
-                    <p><strong>Order Status : </strong> <span class="float-end"><span class="badge bg-danger">Unpaid</span></span></p>
-                    <p><strong>Invoice No. : </strong> <span class="float-end">000028 </span></p>
-                  </div>
+      <!-- Modal content -->
+      <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <header class="modal-header">
+              <h5 class="modal-title">Create Payment</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </header>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6 mt-4">
+                  <p><strong>Order Date : </strong> <span class="float-end"> &nbsp;&nbsp;&nbsp;&nbsp; Jan 17, 2024</span></p>
+                  <p><strong>Order Status : </strong> <span class="float-end"><span class="badge bg-danger">Unpaid</span></span></p>
+                  <p><strong>Invoice No. : </strong> <span class="float-end">000028 </span></p>
+                </div>
 
-                  <div class="col-md-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="list-group">
-                          <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Total Products
-                            <span class="badge bg-success badge-pill">{{ Cart::count() }}</span>
-                          </div>
-                          <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Order Tax
-                            <span class="font-weight-bold">$ {{ Cart::tax() }} (21%)</span>
-                          </div>
-                          <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Sub-Total
-                            <span class="font-weight-bold">$ {{Cart::subtotal()}}</span>
-                          </div>
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="list-group">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                          Total Products
+                          <span class="badge bg-success badge-pill">{{ Cart::count() }}</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                          Order Tax
+                          <span class="font-weight-bold">$ {{ Cart::tax() }} (21%)</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                          Sub-Total
+                          <span class="font-weight-bold">$ {{Cart::subtotal()}}</span>
+                        </div>
 
-                          <div class="list-group-item d-flex justify-content-between align-items-center">
-                            Total Payable
-                            <span class="font-weight-bold">$ {{ Cart::total() }}</span>
-                          </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                          Total Payable
+                          <span class="font-weight-bold">$ {{ Cart::total() }}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <fieldset class="form-group">
-                      <legend class="col-form-label pt-0">Payment</legend>
-                      <select name="payment_status" class="form-select" id="payment_status">
-                        <option selected disabled>Select Payment</option>
-                        <option value="Cash">Cash</option>
-                        <option value="Cheque">Gcash</option>
-                        <option value="Due">Due</option>
-                      </select>
-                      <div class="invalid-feedback"></div>
-                    </fieldset>
-                    <fieldset class="form-group">
-                      <legend class="col-form-label pt-0">Received Amount *</legend>
-                      <input type="text" placeholder="Received Amount" class="form-control" id="received_amount">
-                      <div class="invalid-feedback"></div>
-                    </fieldset>
-                    <div>
-                      <label>Change Return:</label>
-                      <p class="change_amount">0.00</p>
-                    </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <fieldset class="form-group">
+                    <legend class="col-form-label pt-0">Payment</legend>
+                    <select name="payment_status" class="form-select" id="payment_status">
+                      <option selected disabled>Select Payment</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Cheque">Gcash</option>
+                      <option value="Due">Due</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                  </fieldset>
+                  <fieldset class="form-group">
+                    <legend class="col-form-label pt-0">Received Amount *</legend>
+                    <input type="text" placeholder="Received Amount" class="form-control" id="received_amount">
+                    <div class="invalid-feedback"></div>
+                  </fieldset>
+                  <div>
+                    <label>Change Return:</label>
+                    <p class="change_amount">0.00</p>
                   </div>
                 </div>
-                <!-- <input type="hidden" name="customer_id" value=" $customer->id "> -->
-
-                <form method="post" action="{{ url('/final-invoice') }}">
-                  @csrf
-                  <input type="hidden" name="order_date" value="{{ date('d-F-Y') }}">
-                  <input type="hidden" name="order_status" value="pending">
-                  <input type="hidden" name="total_products" value="{{ Cart::count() }}">
-                  <input type="hidden" name="sub_total" value="{{ Cart::subtotal() }}">
-                  <input type="hidden" name="vat" value="{{ Cart::tax() }}">
-                  <input type="hidden" name="total" value="{{ Cart::total() }}">
-                  <div class="mb-3 text-center">
-                    <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-printer me-1"></i> Complete Order</a>
-                  </div>
-                </form>
               </div>
+
+              <form id="complete-order-form" method="post" action="{{ route('complete.order') }}">
+                @csrf
+                <input type="text" name="customers_id" id="modal_customers_id" value="Walk-in-Customer"> <!-- Set default value -->
+                <input type="hidden" name="orderDate" value="{{ date('d-F-Y') }}">
+                <input type="hidden" name="orderStatus" value="pending">
+                <input type="hidden" name="totalProducts" value="{{ Cart::count() }}">
+                <input type="hidden" name="subTotal" value="{{ Cart::subtotal() }}">
+                <input type="hidden" name="vat" value="{{ Cart::tax() }}">
+                <input type="hidden" name="total" value="{{ Cart::total() }}">
+                <div class="mb-3 text-center">
+                  <button type="submit" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-printer me-1"></i> Complete Order</button>
+                </div>
+              </form>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
+          <!-- /.modal-content -->
         </div>
-        <!-- /.modal -->
-      </form>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
     </div>
     <!-- end row-->
   </div>
@@ -297,7 +296,14 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 </div>
 <!-- content -->
 
+<script>
+  document.getElementById('complete-order-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent default form submission
 
+    // Submit the form using POST
+    this.submit();
+  });
+</script>
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -489,7 +495,17 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 </script>
 
 <!-- Show customer modal when a customer is selected -->
+<script>
+  $(document).ready(function() {
+    // Set the hidden input to the default value on page load
+    $('#modal_customers_id').val($('#Customer').val());
 
+    $('#Customer').change(function() {
+      var selectedCustomerId = $(this).val();
+      $('#modal_customers_id').val(selectedCustomerId);
+    });
+  });
+</script>
 
 @livewireScripts
 

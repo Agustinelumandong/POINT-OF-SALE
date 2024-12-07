@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\PosController;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+use App\Http\Controllers\Backend\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -124,7 +125,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/year/expense', 'YearExpense')->name('year.expense');
     }); //end Route::controller(), Group
 
-
+    // POS Route
     Route::controller(PosController::class)->group(function () {
         Route::get('/pos', 'Pos')->name('pos');
         Route::post('/add-cart', 'AddCart');
@@ -134,5 +135,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/create-invoice', 'CreateInvoice');
     }); //end Route::controller(), Group
 
+    // Order Route
+    Route::controller(OrderController::class)->group(function () {
+        Route::post('/complete-order', 'CompleteOrder')->name('complete.order');
+    }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group

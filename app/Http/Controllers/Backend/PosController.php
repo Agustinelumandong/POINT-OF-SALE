@@ -13,11 +13,15 @@ class PosController extends Controller
     //
     public function Pos()
     {
+        // Retrieve all products
         $product = Product::latest()->get();
-        $customer = Customer::latest()->get();
         $products = Product::all();
         $cartItems = Cart::content();
-        return view('backend.pos.pos_page', compact('product', 'customer', 'products', 'cartItems'));
+        // Retrieve all customers
+        $customers = Customer::latest()->get();
+
+        // Pass the data to the view
+        return view('backend.pos.pos_page', compact('product', 'customers', 'products', 'cartItems'));
     }
 
     public function AddCart(Request $request)

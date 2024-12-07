@@ -35,7 +35,16 @@ class ProductController extends Controller
     public function StoreProduct(Request $request)
     {
 
-        $productCode = IdGenerator::generate(['table' => 'products', 'field' => 'productCode', 'length' => 8, 'prefix' => 'P']);
+        // Function to generate a unique product code
+        function generateProductCode()
+        {
+            return rand(10000000, 99999999); // Generates an 8-digit random number
+        }
+
+        // Ensure uniqueness
+        do {
+            $productCode = generateProductCode();
+        } while (Product::where('productCode', $productCode)->exists());
 
         if ($request->file('productImage')) {
             $manager = new ImageManager(new Driver());

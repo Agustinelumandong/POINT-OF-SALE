@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('productName');
-            $table->integer('categoryID');
-            $table->integer('supplierID');
-            $table->string('productCode');
+            $table->foreignId('product_categories_id')
+                ->constrained('product_categories') // Explicit reference to table
+                ->onDelete('cascade'); // Cascade on delete
+            $table->foreignId('suppliers_id')
+                ->constrained('suppliers') // Explicit reference to table
+                ->onDelete('cascade'); // Cascade on delete
+            $table->bigInteger('productCode')->unique(); // Product code as integer
             $table->string('productImage');
+            $table->string('productStock');
             $table->string('buyingDate')->nullable();
             $table->string('expireDate')->nullable();
             $table->string('buyingPrice')->nullable();
