@@ -147,6 +147,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/order/status/update', 'OrderStatusUpdate')->name('order.status.update');
 
         Route::get('/stock', 'StockManage')->name('stock.manage');
+        Route::get('/order/invoice-download/{orders_id}', 'OrderInvoice')->name('order.invoice.download'); // Corrected line
     }); //end Route::controller(), Group
 
 }); //end Route::middleware(), Group

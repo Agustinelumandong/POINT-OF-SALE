@@ -9,6 +9,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<!-- Include Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
 <style>
   #product-col {
@@ -44,7 +46,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 </style>
 
 <div class="content">
-
   <!-- Start Content-->
   <div class="container-fluid">
 
@@ -261,7 +262,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
                         <option selected disabled>Select Payment</option>
                         <option value="Cash">Cash</option>
                         <option value="Gcash">Gcash</option>
-                        <option value="Due">Due</option>
                       </select>
                       <div class="invalid-feedback"></div>
                     </fieldset>
@@ -270,20 +270,15 @@ use Gloudemans\Shoppingcart\Facades\Cart;
                       <input type="text" placeholder="Received Amount" class="form-control" id="pay" name="pay">
                       <div class="invalid-feedback"></div>
                     </fieldset>
-                    <fieldset class="form-group">
-                      <legend class="col-form-label pt-0">Due Amount *</legend>
-                      <input type="text" placeholder="Due Amount" class="form-control" id="due" name="due">
-                      <div class="invalid-feedback"></div>
-                    </fieldset>
                     <div>
                       <label>Change Return:</label>
                       <p class="change_amount">0.00</p>
                     </div>
                   </div>
                 </div>
-                <input type="text" name="customers_id" id="modal_customers_id" value="Walk-in-Customer"> <!-- Set default value -->
+                <input type="hidden" name="customers_id" id="modal_customers_id" value="Walk-in-Customer"> <!-- Set default value -->
                 <input type="hidden" name="orderDate" value="{{ date('d-F-Y') }}">
-                <input type="hidden" name="orderStatus" value="Unpaid">
+                <input type="hidden" name="orderStatus" value="Pending">
                 <input type="hidden" name="totalProducts" value="{{ Cart::count() }}">
                 <input type="hidden" name="subTotal" value="{{ Cart::subtotal() }}">
                 <input type="hidden" name="vat" value="{{ Cart::tax() }}">
@@ -303,9 +298,67 @@ use Gloudemans\Shoppingcart\Facades\Cart;
     </div>
     <!-- end row-->
   </div>
-  <!-- container -->
+
+  <!-- container-fluid -->
 </div>
 <!-- content -->
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const payInput = document.getElementById('pay');
+    const changeAmount = document.querySelector('.change_amount');
+    const form = document.getElementById('complete-order-form');
+    const totalInput = document.querySelector('input[name="total"]');
+    const customerIdInput = document.getElementById('modal_customers_id');
+
+    function calculateAndDisplayChange() {
+      const total = parseFloat(totalInput.value) || 0;
+      const receivedAmount = parseFloat(payInput.value) || 0;
+
+      // Reset validation state
+      payInput.classList.remove('is-invalid');
+
+      // Check if it's a walk-in customer
+      if (customerIdInput.value === 'Walk-in-Customer') {
+        if (receivedAmount < total) {
+          // Show error for insufficient payment
+          payInput.classList.add('is-invalid');
+          payInput.nextElementSibling.textContent = 'Payment must be equal to or greater than the total for walk-in customers.';
+          changeAmount.textContent = '0.00';
+        } else {
+          // Calculate and show change
+          const change = receivedAmount - total;
+          changeAmount.textContent = change.toFixed(2);
+        }
+      } else {
+        // For registered customers, just show change if payment is greater than total
+        const change = receivedAmount > total ? receivedAmount - total : 0;
+        changeAmount.textContent = change.toFixed(2);
+      }
+    }
+
+    // Calculate change whenever payment amount changes
+    payInput.addEventListener('input', calculateAndDisplayChange);
+
+    // Validate form before submission
+    form.addEventListener('submit', function(e) {
+      const total = parseFloat(totalInput.value) || 0;
+      const receivedAmount = parseFloat(payInput.value) || 0;
+
+      if (customerIdInput.value === 'Walk-in-Customer' && receivedAmount < total) {
+        e.preventDefault();
+        payInput.classList.add('is-invalid');
+        payInput.nextElementSibling.textContent = 'Payment must be equal to or greater than the total for walk-in customers.';
+      }
+    });
+  });
+</script>
+
+
+
 
 <script>
   document.getElementById('complete-order-form').addEventListener('submit', function(e) {

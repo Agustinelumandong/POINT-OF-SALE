@@ -15,6 +15,7 @@ use App\Models\ProductCategory;
 use App\Models\Supplier;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class OrderController extends Controller
@@ -22,7 +23,12 @@ class OrderController extends Controller
     //
     public function CompleteOrder(Request $request)
     {
+        $requestTotal = $request->total;
+        $requestPay = $request->pay;
+
+        // Check if the customer is a walk-in customer
         if ($request->customers_id == 'Walk-in-Customer') {
+            // Create a new walk-in customer
             $customer = new Customer();
             $customer->customerName = 'Walk-in Customer';
             $customer->customerEmail = 'walkin@example.com';
@@ -30,15 +36,39 @@ class OrderController extends Controller
             $customer->customerAddress = 'N/A';
             $customer->save();
 
-            $customerID = $customer->id; // This is the correct ID to use
+            $customerID = $customer->id;
+
+            // Handle payment for walk-in customer
+            if ($requestPay < $requestTotal) {
+                // If payment is less than total, throw an error
+                return redirect()->back()->withErrors(['pay' => 'Payment must be equal to or greater than the total for walk-in customers.']);
+            } else {
+                // Calculate change for walk-in customer
+                $change = $requestPay - $requestTotal;
+                $orderStatus = 'Complete'; // Walk-in customers with full payment are always Complete
+            }
         } else {
-            $customerID = $request->customers_id; // This should be an integer
+            // For registered customers
+            $customerID = $request->customers_id;
+            // Calculate due amount
+            $dueTotal = $requestTotal - $requestPay;
+
+            // Set order status based on payment
+            if ($requestPay >= $requestTotal) {
+                $change = $requestPay - $requestTotal;
+                $orderStatus = 'Complete';
+                $dueTotal = 0; // No due amount if paid in full
+            } else {
+                $orderStatus = 'Pending'; // Set to pending if there's a remaining balance
+                $change = 0;
+            }
         }
 
+        // Prepare order data
         $order = [
-            'customers_id' => $customerID, // Use $customerID here
-            'orderDate' => Carbon::createFromFormat('d-F-Y', $request->orderDate)->format('Y-m-d H:i:s'), // Ensure correct date format
-            'orderStatus' => $request->orderStatus,
+            'customers_id' => $customerID,
+            'orderDate' => Carbon::createFromFormat('d-F-Y', $request->orderDate)->format('Y-m-d H:i:s'),
+            'orderStatus' => $orderStatus, // Use the dynamically set status
             'totalProducts' => $request->totalProducts,
             'subTotal' => $request->subTotal,
             'vat' => $request->vat,
@@ -46,13 +76,15 @@ class OrderController extends Controller
             'total' => $request->total,
             'payment_status' => $request->payment_status,
             'pay' => $request->pay,
-            'due' => $request->due,
+            'due' => $dueTotal ?? 0,
             'created_at' => Carbon::now(),
         ];
 
+        // Insert order and get the order ID
         $orders_id = Order::insertGetId($order);
         $contents = Cart::content();
 
+        // Insert order details
         foreach ($contents as $content) {
             $productData = [
                 'orders_id' => $orders_id,
@@ -64,43 +96,88 @@ class OrderController extends Controller
             OrderDetails::insert($productData);
         }
 
+        // Prepare notification message
         $notification = [
-            'message' => 'Order Created Successfully',
+            'message' => 'Order Created Successfully' .
+                (isset($change) && $change > 0 ? " Change: $" . number_format($change, 2) : "") .
+                ($dueTotal ?? 0 > 0 ? " Due Amount: $" . number_format($dueTotal, 2) : ""),
             'alert-type' => 'success'
         ];
 
+        // Clear the cart
         Cart::destroy();
 
+        // Redirect with notification
         return redirect()->route('pos')->with($notification);
-    } //end method CompleteOrder
+    } // End Method
 
     public function UnpaidOrder()
     {
-        $orders = Order::where('orderStatus', 'Unpaid')->get();
+        $orders = Order::where('orderStatus', 'Pending')->get();
         return view('backend.order.pending_order', compact('orders'));
     } //end method UnpaidOrder
 
-    public function OrderDetails($orders_id)
+    public function OrderDetails(Request $request, $orders_id)
     {
+
         $order = Order::where('id', $orders_id)->first();
+        $orders = Order::findOrFail($orders_id);
+
         $orderItem = OrderDetails::with('product')->where('orders_id', $orders_id)->orderBy('id', 'DESC')->get();
-        return view('backend.order.order_details', compact('order', 'orderItem'));
+        return view('backend.order.order_details', compact('order', 'orderItem', 'orders'));
     } // End Method 
 
     public function OrderStatusUpdate(Request $request)
     {
-        $order_id = $request->id;
+        // Validate the request
+        $request->validate([
+            'payment_status' => 'required',
+            'pay' => 'required|numeric|min:0',
+        ]);
 
-        $product = OrderDetails::where('orders_id', $order_id)->get();
+        // Get the order ID from the hidden input or route parameter
+        $orders_id = $request->id;
+
+        // Find the order
+        $order = Order::findOrFail($orders_id);
+
+        // Calculate payment and change
+        $payment_amount = $request->pay;
+        $due_amount = $order->due;
+        $pay_amount = $order->pay;
+        $change_amount = $payment_amount + $due_amount;
+
+
+        $total_amount_pay = $payment_amount + $pay_amount;
+
+
+        // Check if payment is sufficient
+        if ($change_amount < 0) {
+            return back()->with([
+                'message' => 'Payment amount must be at least equal to the due amount',
+                'alert-type' => 'error'
+            ]);
+        }
+
+        // Update product stock
+        $product = OrderDetails::where('orders_id', $orders_id)->get();
         foreach ($product as $item) {
             Product::where('id', $item->products_id)
                 ->update(['productStock' => DB::raw('productStock-' . $item->quantity)]);
         }
 
-        Order::findOrFail($order_id)->update(['orderStatus' => 'complete']);
+        // Update order status and payment details
+        $order->update([
+            'orderStatus' => 'Complete',
+            'payment_status' => $request->payment_status,
+            'pay' => $total_amount_pay, // Store the actual payment amount, not including change
+            // 'change_amount' => $change_amount,
+            'due' => 0,
+            // 'payment_date' => now(),
+        ]);
 
         $notification = array(
-            'message' => 'Order Done Successfully',
+            'message' => 'Order Completed and Payment Processed Successfully. Change Amount: $' . number_format($change_amount, 2),
             'alert-type' => 'success'
         );
 
@@ -109,13 +186,36 @@ class OrderController extends Controller
 
     public function PaidOrder()
     {
-        $orders = Order::where('orderStatus', 'PAID')->get();
+        $orders = Order::where('orderStatus', 'Complete')->get();
         return view('backend.order.paid_order', compact('orders'));
     } //end method PaidOrder
+
     public function StockManage()
     {
         $products = Product::latest()->get();
-        return view('backend.stock.all_stock', compact('products'));
+        return view('backend.stock.all_stock', compact(var_name: 'products'));
     } // End Method 
 
+    public function OrderInvoice($orders_id)
+    {
+        // Fetch the order using the provided order ID
+        $order = Order::where('id', $orders_id)->first();
+
+        // Fetch the order items related to the order
+        $orderItem = OrderDetails::with('product') // Corrected the relation syntax
+            ->where('orders_id', $orders_id)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        // Load the view for the invoice and set options for the PDF
+        $pdf = Pdf::loadView('backend.order.order_invoice', compact('order', 'orderItem'))
+            ->setPaper([0, 0, 226.77, 600])  // 80mm width × 211mm height
+            ->setOptions([
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+            ]);
+
+        // Download the PDF file
+        return $pdf->download('invoice_' . $order->id . '.pdf');
+    } // End Method
 } //end class OrderController
