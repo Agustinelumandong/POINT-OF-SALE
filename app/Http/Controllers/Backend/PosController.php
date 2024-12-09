@@ -9,14 +9,17 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Carbon\Carbon;
 
 class PosController extends Controller
 {
     //
     public function Pos()
     {
+        $todayDate = Carbon::now();
+
         // Retrieve all products
-        $product = Product::latest()->get();
+        $product = Product::where('expireDate', '>', $todayDate)->latest()->get();
         $products = Product::all();
         $cartItems = Cart::content();
         // Retrieve all customers
