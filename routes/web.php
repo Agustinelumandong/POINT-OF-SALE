@@ -13,14 +13,16 @@ use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\PosController;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use App\Http\Controllers\Backend\OrderController;
+// use ;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    $sales = App\Models\Order::all();
+    return view('index', compact('sales'));
+})->middleware(['auth', 'verified'])->name('index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

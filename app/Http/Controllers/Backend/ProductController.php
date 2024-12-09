@@ -88,10 +88,10 @@ class ProductController extends Controller
     public function UpdateProduct(Request $request)
     {
 
-        $productID = $request->id;
+        $products_id = $request->id;
 
         // Find the product record
-        $product = Product::findOrFail($productID);
+        $product = Product::findOrFail($products_id);
 
         // Check if a new image is being uploaded
         if ($request->file('productImage')) {
@@ -116,8 +116,8 @@ class ProductController extends Controller
                 'productName' => $request->productName,
                 'product_categories_id' => $request->product_categories_id,
                 'suppliers_id' => $request->suppliers_id,
-                // 'productCode' => $request->productCode,
                 'productImage' => $save_url,
+                'productStock' => $request->productStock,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
                 'buyingPrice' => $request->buyingPrice,
@@ -130,7 +130,7 @@ class ProductController extends Controller
                 'productName' => $request->productName,
                 'product_categories_id' => $request->product_categories_id,
                 'suppliers_id' => $request->suppliers_id,
-                // 'productCode' => $request->productCode,
+                'productStock' => $request->productStock,
                 'buyingDate' => $request->buyingDate,
                 'expireDate' => $request->expireDate,
                 'buyingPrice' => $request->buyingPrice,
