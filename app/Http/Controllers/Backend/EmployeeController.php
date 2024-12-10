@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-// Load Composer's autoloader
-require '../vendor/autoload.php';
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee;

@@ -2,12 +2,14 @@
     <div class="container-fluid">
         <ul class="list-unstyled topnav-menu float-end mb-0">
             <li class="dropdown d-inline-block d-lg-none">
-                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown"
+                    href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-search noti-icon"></i>
                 </a>
                 <div class="dropdown-menu dropdown-lg dropdown-menu-end p-0">
                     <form class="p-3">
-                        <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+                        <input type="text" class="form-control" placeholder="Search ..."
+                            aria-label="Recipient's username">
                     </form>
                 </div>
             </li>
@@ -16,31 +18,60 @@
             <li class="dropdown d-none d-lg-inline-block">
                 <div class="nav-link pos dropdown-toggle arrow-none waves-effect waves-light">
 
-                    <a href="{{route('pos')}}" class="btn btn-outline-success tn-sm rounded-pill px-3 fw-bold">POS</a>
+                    <a href="{{ route('pos') }}"
+                        class="btn btn-outline-success tn-sm rounded-pill px-3 fw-bold">POS</a>
 
                 </div>
             </li>
 
+            <li class="dropdown d-inline-block d-lg-none">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown"
+                    href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <i class="fe-search noti-icon"></i>
+                </a>
+                <div class="dropdown-menu dropdown-lg dropdown-menu-end p-0">
+                    <form class="p-3">
+                        <input type="text" class="form-control" placeholder="Search ..."
+                            aria-label="Recipient's username">
+                    </form>
+                </div>
+            </li>
+
             <li class="dropdown d-none d-lg-inline-block">
-                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="fullscreen" href="#">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="fullscreen"
+                    href="#">
                     <i class="fe-maximize noti-icon"></i>
                 </a>
             </li>
 
 
+            <li class="dropdown d-inline-block d-lg-none">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown"
+                    href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <i class="fe-search noti-icon"></i>
+                </a>
+                <div class="dropdown-menu dropdown-lg dropdown-menu-end p-0">
+                    <form class="p-3">
+                        <input type="text" class="form-control" placeholder="Search ..."
+                            aria-label="Recipient's username">
+                    </form>
+                </div>
+            </li>
 
             @php
 
-            $id = Auth::user()->id;
-            $adminData = App\Models\User::find($id);
+                $id = Auth::user()->id;
+                $adminData = App\Models\User::find($id);
 
             @endphp
 
             <li class="dropdown notification-list topbar-dropdown">
-                <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="{{ (!empty($adminData->photo)) ? url('upload/admin_image/'.$adminData->photo) : url('upload/no_image.jpg') }}" alt="user-image" class="rounded-circle">
+                <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown"
+                    href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="{{ !empty($adminData->photo) ? url('upload/admin_image/' . $adminData->photo) : url('upload/no_image.jpg') }}"
+                        alt="user-image" class="rounded-circle">
                     <span class="pro-user-name ms-1">
-                        {{ $adminData->name}} <i class="mdi mdi-chevron-down"></i>
+                        {{ $adminData->name }} <i class="mdi mdi-chevron-down"></i>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
@@ -52,17 +83,7 @@
                         <span>My Account</span>
                     </a>
 
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-settings"></i>
-                        <span>Settings</span>
-                    </a>
 
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-lock"></i>
-                        <span>Lock Screen</span>
-                    </a>
 
                     <div class="dropdown-divider"></div>
 
@@ -85,7 +106,7 @@
 
         <!-- LOGO -->
         <div class="logo-box">
-            <a href="{{ url('/dashboard')}}" class="logo logo-dark text-center">
+            <a href="{{ url('/dashboard') }}" class="logo logo-dark text-center">
                 <span class="logo-sm">
                     <img src="{{ asset('backend/assets/images/pos-logo.png') }}" alt="" height="50">
                     <!-- <span class="logo-lg-text-light">UBold</span> -->

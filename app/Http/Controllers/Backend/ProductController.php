@@ -111,6 +111,8 @@ class ProductController extends Controller
             $img->toJpeg(80)->save(base_path("public/upload/product_image/{$name_gen}"));
             $save_url = "upload/product_image/{$name_gen}";
 
+
+
             // Update the product record with the new image
             $product->update([
                 'productName' => $request->productName,
@@ -267,4 +269,55 @@ class ProductController extends Controller
         return redirect()->back()->with($notification);
     } //end method ImportProduct
 
+
+    public function StockManage()
+    {
+        $products = Product::latest()->get();
+        return view('backend.stock.all_stock', compact(var_name: 'products'));
+    } // End Method 
+    public function UpdateStockAjax($id)
+    {
+        $product = Product::findOrFail($id);
+        return response()->json($product);
+    }
+
+    public function UpdateStock(Request $request)
+    {
+        $product_id = $request->id; // Get the product ID from the request
+        $productStock = $request->productStock; // Get the new stock amount from the request
+
+        // Find the product or fail if not found
+        $allProduct = Product::findOrFail($product_id);
+
+        // Update the product stock
+        $allProduct->update([
+            'productStock' => $productStock,
+        ]);
+
+        // Prepare a notification message
+        $notification = [
+            'message' => 'Stock Updated Successfully',
+            'alert-type' => 'success',
+        ];
+
+        // Redirect to the stock management route with the notification
+        return redirect()->route('stock.manage')->with($notification);
+    }
+
+    public function getNotifications()
+    {
+        // Fetch notifications related to product stocks
+        $notifications = Product::where('productStock', '<=', 10)
+            ->latest()
+            ->take(10)
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'message' => "Stock for product '{$product->productName}' is low (Current stock: {$product->productStock}).",
+                    'created_at' => $product->updated_at->diffForHumans(), // Format the timestamp
+                ];
+            });
+
+        return response()->json($notifications);
+    }
 }

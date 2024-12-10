@@ -64,6 +64,30 @@ class OrderController extends Controller
             }
         }
 
+        // Check product stock before creating the order
+        $contents = Cart::content();
+        foreach ($contents as $content) {
+            $productStock = Product::where('id', $content->id)->value('productStock');
+
+            // Check if the stock is less than 0
+            if ($productStock < 0) {
+                $notification = [
+                    'message' => 'This product ' . $content->name . ' is out of stock',
+                    'alert-type' => 'error'
+                ];
+                return redirect()->back()->withErrors(['stock' => 'Product ID ' . $content->id . ' is out of stock. Cannot place order.']);
+            }
+
+            // Check if the requested quantity is greater than available stock
+            if ($content->qty > $productStock) {
+                $notification = [
+                    'message' => 'Not enough stock for product ' . $content->name,
+                    'alert-type' => 'error'
+                ];
+                return redirect()->back()->withErrors(['stock' => 'Not enough stock for product ID ' . $content->id])->with($notification);
+            }
+        }
+
         // Prepare order data
         $order = [
             'customers_id' => $customerID,
@@ -72,7 +96,7 @@ class OrderController extends Controller
             'totalProducts' => $request->totalProducts,
             'subTotal' => $request->subTotal,
             'vat' => $request->vat,
-            'invoice_no' => 'EPOS' . mt_rand(100000, 999999),
+            'invoice_no' => $request->invoice_no,
             'total' => $request->total,
             'payment_status' => $request->payment_status,
             'pay' => $request->pay,
@@ -82,9 +106,8 @@ class OrderController extends Controller
 
         // Insert order and get the order ID
         $orders_id = Order::insertGetId($order);
-        $contents = Cart::content();
 
-        // Insert order details
+        // Insert order details and update product stock
         foreach ($contents as $content) {
             $productData = [
                 'orders_id' => $orders_id,
@@ -94,6 +117,19 @@ class OrderController extends Controller
                 'totalCost' => $content->price * $content->qty,
             ];
             OrderDetails::insert($productData);
+
+            // Update product stock
+            Product::where('id', $content->id)
+                ->update(['productStock' => DB::raw('productStock - ' . $content->qty)]);
+        }
+
+        // Check for low stock notification
+        foreach ($contents as $content) {
+            $productStock = Product::where('id', $content->id)->value('productStock');
+            if ($productStock < 20) {
+                // You can implement your notification logic here
+                session()->flash('low_stock_notification', value: 'Product ID ' . $content->id . ' is low on stock: ' . $productStock . ' remaining.');
+            }
         }
 
         // Prepare notification message
@@ -147,9 +183,7 @@ class OrderController extends Controller
         $pay_amount = $order->pay;
         $change_amount = $payment_amount + $due_amount;
 
-
         $total_amount_pay = $payment_amount + $pay_amount;
-
 
         // Check if payment is sufficient
         if ($change_amount < 0) {
@@ -159,8 +193,21 @@ class OrderController extends Controller
             ]);
         }
 
-        // Update product stock
+        // Check product stock
         $product = OrderDetails::where('orders_id', $orders_id)->get();
+        foreach ($product as $item) {
+            $productStock = Product::where('id', $item->products_id)->value('productStock');
+
+            // Check if the requested quantity is greater than available stock
+            if ($item->quantity > $productStock) {
+                return back()->with([
+                    'message' => 'Not enough stock for product ID ' . $item->products_id,
+                    'alert-type' => 'error'
+                ]);
+            }
+        }
+
+        // Update product stock
         foreach ($product as $item) {
             Product::where('id', $item->products_id)
                 ->update(['productStock' => DB::raw('productStock-' . $item->quantity)]);
@@ -171,10 +218,19 @@ class OrderController extends Controller
             'orderStatus' => 'Complete',
             'payment_status' => $request->payment_status,
             'pay' => $total_amount_pay, // Store the actual payment amount, not including change
-            // 'change_amount' => $change_amount,
             'due' => 0,
             // 'payment_date' => now(),
         ]);
+
+        // Check for low stock notification
+        foreach ($product as $item) {
+            $productStock = Product::where('id', $item->products_id)->value('productStock');
+            if ($productStock < 20) {
+                // You can implement your notification logic here
+                // For example, you can log it, send an email, or store it in a session
+                session()->flash('low_stock_notification', 'Product ID ' . $item->products_id . ' is low on stock: ' . $productStock . ' remaining.');
+            }
+        }
 
         $notification = array(
             'message' => 'Order Completed and Payment Processed Successfully. Change Amount: $' . number_format($change_amount, 2),
@@ -190,11 +246,7 @@ class OrderController extends Controller
         return view('backend.order.paid_order', compact('orders'));
     } //end method PaidOrder
 
-    public function StockManage()
-    {
-        $products = Product::latest()->get();
-        return view('backend.stock.all_stock', compact(var_name: 'products'));
-    } // End Method 
+
 
     public function OrderInvoice($orders_id)
     {
@@ -218,4 +270,7 @@ class OrderController extends Controller
         // Download the PDF file
         return $pdf->download('invoice_' . $order->id . '.pdf');
     } // End Method
+
+
+
 } //end class OrderController

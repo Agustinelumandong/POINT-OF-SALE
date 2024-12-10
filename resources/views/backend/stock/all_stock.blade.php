@@ -39,6 +39,7 @@
                                         <th>Supplier</th>
                                         <th>Code</th>
                                         <th>Stock</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,8 +52,13 @@
                                             <td>{{ $item->productCategory->productCategoryName ?? 'N/A' }}</td>
                                             <td>{{ $item->supplier->supplierName ?? 'N/A' }}</td>
                                             <td>{{ $item->productCode }}</td>
-                                            <td> <button
-                                                    class="btn btn-warning waves-effect waves-light">{{ $item->productStock }}</button>
+                                            <td> <button class="btn btn-warning waves-effect waves-light"
+                                                    disabled>{{ $item->productStock }}</button>
+                                            </td>
+                                            <td> <button class="btn btn-warning waves-effect waves-light"
+                                                    data-bs-toggle="modal" data-bs-target="#signup-modal"
+                                                    onclick="productStock(this.id)" id="{{ $item->id }}"><i
+                                                        class="fa fa-pen-alt"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -66,4 +72,67 @@
             <!-- end row-->
         </div> <!-- container -->
     </div> <!-- content -->
+
+    <!-- Modal content -->
+    <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h5 class="modal-title">Edit Product Stock</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="fas fa-times"></i></button>
+                </header>
+                <div class="modal-body">
+                    <div class="row">
+                        <div>
+                            <h4 class="text-center">Product Name: <span class="fw-5" id="productName"
+                                    value="productName"></span></h4>
+                        </div>
+                    </div>
+                    <form id="complete-order-form" method="post" action="{{ route('update.stock') }}">
+                        @csrf
+
+                        <input type="hidden" id="id" name="id">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <fieldset class="form-group">
+                                    <legend class="col-form-label pt-0">Update Stock Amount *</legend>
+                                    <input type="text" placeholder="Stock Amount" class="form-control" id="productStock"
+                                        name="productStock">
+                                    <div class="invalid-feedback"></div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-success waves-effect waves-light"> Update Stock</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+
+
+
+    <script type="text/javascript">
+        function productStock(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/product-stock/' + id,
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    $('#productStock').val(data.productStock);
+                    $('#id').val(data.id);
+                    $('#productName').text(data.productName);
+                }
+            });
+        }
+    </script>
 @endsection

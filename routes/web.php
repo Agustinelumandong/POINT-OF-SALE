@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\PosController;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\EmployeesController;
 // use ;
 
 Route::get('/', function () {
@@ -113,6 +114,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/import/product/page',  'ImportProductPage')->name('import.product.page');
         Route::get('/export',  'ExportProduct')->name('export.product');
         Route::post('/import',  'ImportProduct')->name('import.product');
+
+        Route::get('/stock', 'StockManage')->name('stock.manage');
+        Route::get('/product-stock/{id}', 'UpdateStockAjax');
+        Route::post('/update-stock', 'UpdateStock')->name('update.stock');
+
+        Route::get('/notifications', 'Notification');
     }); //end Route::controller(), Group
 
 
@@ -148,8 +155,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/order/details/{orders_id}', 'OrderDetails')->name('order.details');
         Route::post('/order/status/update', 'OrderStatusUpdate')->name('order.status.update');
 
-        Route::get('/stock', 'StockManage')->name('stock.manage');
+
+
+
         Route::get('/order/invoice-download/{orders_id}', 'OrderInvoice')->name('order.invoice.download'); // Corrected line
     }); //end Route::controller(), Group
 
+
+
+    Route::resource('employees', EmployeesController::class);
+    Route::get('employee/personal-info/{employeeDetail}', [EmployeeDetailsController::class, 'personalInfo'])->name('employee.personal-info');
 }); //end Route::middleware(), Group

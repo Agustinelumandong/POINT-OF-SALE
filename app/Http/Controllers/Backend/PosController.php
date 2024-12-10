@@ -19,7 +19,10 @@ class PosController extends Controller
         $todayDate = Carbon::now();
 
         // Retrieve all products
-        $product = Product::where('expireDate', '>', $todayDate)->latest()->get();
+        $product = Product::where('expireDate', '>', $todayDate)
+            ->where('productStock', '>', 0) // Add this condition
+            ->latest()
+            ->get();
         $products = Product::all();
         $cartItems = Cart::content();
         // Retrieve all customers
@@ -28,7 +31,7 @@ class PosController extends Controller
 
 
         // Pass the data to the view
-        return view('backend.pos.pos_page', compact('product', 'customers', 'products', 'cartItems', 'customer'));
+        return view('backend.pos.pos_page', compact('product', 'customers', 'products', 'cartItems', 'customer', 'todayDate'));
     }
 
     public function AddCart(Request $request)
