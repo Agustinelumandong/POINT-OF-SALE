@@ -1,7 +1,6 @@
 // employess route
 Route::resource('employees', EmployeesController::class);
-Route::get('employee/personal-info/{employeeDetail}', [EmployeeDetailsController::class, 'personalInfo'])->name('employee.personal-info');
-Route::post('employee/personal-info/{employeeDetail}', [EmployeeDetailsController::class, 'updatePersonalInfo']);
+
 Route::get('employees-list', [EmployeesController::class, 'list'])->name('employees.list');
 Route::resource('holidays', HolidaysController::class);
 Route::get('holidays-calendar', [HolidaysController::class, 'calendar'])->name('holidays.calendar');

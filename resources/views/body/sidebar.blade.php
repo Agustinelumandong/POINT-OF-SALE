@@ -8,9 +8,7 @@
             <div class="dropdown">
                 <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
                     data-bs-toggle="dropdown">Geneva Kennedy</a>
-                <div class="dropdown-menu user-pro-dropdown"
-
-                    <!-- item-->
+                <div class="dropdown-menu user-pro-dropdown" <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="fe-user me-1"></i>
                         <span>My Account</span>
@@ -61,14 +59,33 @@
                     <div class="collapse" id="sidebarEmployee">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.employee')}}">All Employee</a>
+                                <a href="{{ route('all.employee') }}">All Employee</a>
                             </li>
                             <li>
-                                <a href="{{ route('add.employee')}}">Add Employee</a>
+                                <a href="{{ route('add.employee') }}">Add Employee</a>
                             </li>
                             <li>
-                                <a href="{{ route('show.deleted.employee')}}">Deleted Employee</a>
+                                <a href="{{ route('show.deleted.employee') }}">Deleted Employee</a>
                             </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a href="#sidebarEmployee" data-bs-toggle="collapse">
+                        <i class="mdi mdi-cart-outline"></i>
+                        <span> Employee Salary </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarEmployee">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('add.advance.salary') }}">Add Advance Salary</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('all.employee') }}">All Advance Salary</a>
+                            </li>
+
 
                         </ul>
                     </div>
@@ -82,13 +99,13 @@
                     <div class="collapse" id="sidebarCustomer">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.customer')}}">All Customer</a>
+                                <a href="{{ route('all.customer') }}">All Customer</a>
                             </li>
                             <li>
-                                <a href="{{ route('add.customer')}}">Add Customer</a>
+                                <a href="{{ route('add.customer') }}">Add Customer</a>
                             </li>
                             <li>
-                                <a href="{{ route('show.deleted.customer')}}">Deleted Customer</a>
+                                <a href="{{ route('show.deleted.customer') }}">Deleted Customer</a>
                             </li>
 
                         </ul>
@@ -103,13 +120,13 @@
                     <div class="collapse" id="sidebarSupplier">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.supplier')}}">All Supplier</a>
+                                <a href="{{ route('all.supplier') }}">All Supplier</a>
                             </li>
                             <li>
-                                <a href="{{ route('add.supplier')}}">Add Supplier</a>
+                                <a href="{{ route('add.supplier') }}">Add Supplier</a>
                             </li>
                             <li>
-                                <a href="{{ route('show.deleted.supplier')}}">Deleted Supplier</a>
+                                <a href="{{ route('show.deleted.supplier') }}">Deleted Supplier</a>
                             </li>
 
                         </ul>
@@ -124,16 +141,16 @@
                     <div class="collapse" id="sidebarProduct">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.product')}}">All Products</a>
+                                <a href="{{ route('all.product') }}">All Products</a>
                             </li>
                             <li>
-                                <a href="{{ route('add.product')}}">Add Products</a>
+                                <a href="{{ route('add.product') }}">Add Products</a>
                             </li>
                             <li>
-                                <a href="{{ route('show.deleted.product')}}">Deleted Products</a>
+                                <a href="{{ route('show.deleted.product') }}">Deleted Products</a>
                             </li>
                             <li>
-                                <a href="{{ route('import.product.page')}}">Import Products</a>
+                                <a href="{{ route('import.product.page') }}">Import Products</a>
                             </li>
 
                         </ul>
@@ -148,13 +165,13 @@
                     <div class="collapse" id="sidebarProductCategory">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.productCategory')}}">All Product Category</a>
+                                <a href="{{ route('all.productCategory') }}">All Product Category</a>
                             </li>
                             <li>
-                                <a href="{{ route('add.productCategory')}}">Add Product Category</a>
+                                <a href="{{ route('add.productCategory') }}">Add Product Category</a>
                             </li>
                             <li>
-                                <a href="{{ route('show.deleted.productCategory')}}">Deleted Product Category</a>
+                                <a href="{{ route('show.deleted.productCategory') }}">Deleted Product Category</a>
                             </li>
 
                         </ul>
@@ -170,10 +187,10 @@
                     <div class="collapse" id="sidebarOrders">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('unpaid.order')}}">Pending Orders</a>
+                                <a href="{{ route('unpaid.order') }}">Pending Orders</a>
                             </li>
                             <li>
-                                <a href="{{ route('paid.order')}}">Complete</a>
+                                <a href="{{ route('paid.order') }}">Complete</a>
                             </li>
                         </ul>
                     </div>
