@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AdvanceSalary;
 use App\Models\Employee;
+use App\Models\PaySalary;
 use Carbon\Carbon;
 
 class SalaryController extends Controller
@@ -159,4 +160,47 @@ class SalaryController extends Controller
     } //end method RestoreEmployee
 
 
-}
+
+    //< --------------------------------- Pay Salary All Mehtod --------------------------------->
+
+
+    public function PaySalary()
+    {
+
+        $employee = Employee::latest()->get();
+        return view('backend.salary.pay_salary', compact('employee'));
+    } // End Method 
+
+    public function PayNowSalary($id)
+    {
+
+        $paySalary = Employee::findOrFail($id);
+        return view('backend.salary.paid_salary', compact('paySalary'));
+    } // End Method 
+
+    public function EmployeeSalaryStore(Request $request)
+    {
+
+        $employee_id = $request->id;
+
+        PaySalary::insert([
+
+            'employee_id' => $employee_id,
+            'salaryMonth' => $request->month,
+            'paidAmount' => $request->paid_amount,
+            'advanceSalary' => $request->advance_salary,
+            'dueSalary' => $request->due_salary,
+            'created_at' => Carbon::now(),
+
+        ]);
+
+        $notification = array(
+            'message' => 'Employee Salary Paid Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('pay.salary')->with($notification);
+    } // End Method 
+
+
+} // End Class

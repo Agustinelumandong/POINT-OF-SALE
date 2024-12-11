@@ -158,7 +158,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/order/invoice-download/{orders_id}', 'OrderInvoice')->name('order.invoice.download'); // Corrected line
     }); //end Route::controller(), Group
 
-    // Order Route
+    // Advance Salary Route
     Route::controller(SalaryController::class)->group(function () {
         Route::get('/add/advance/salary', 'AddAdvanceSalary')->name('add.advance.salary');
         Route::post('/advance/salary/store', 'AdvanceSalaryStore')->name('advance.salary.store');
@@ -169,7 +169,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/restore/advance/salary/{id}',  'RestoreAdvanceSalary')->name('restore.advance.salary');
     }); //end Route::controller(), Group
 
+    /// Pay Salary All Route 
+    Route::controller(SalaryController::class)->group(function () {
 
-
-
+        Route::get('/pay/salary', 'PaySalary')->name('pay.salary');
+        Route::get('/pay/now/salary/{id}', 'PayNowSalary')->name('pay.now.salary');
+        Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
+        Route::get('/month/salary', 'MonthSalary')->name('month.salary');
+    });
 }); //end Route::middleware(), Group

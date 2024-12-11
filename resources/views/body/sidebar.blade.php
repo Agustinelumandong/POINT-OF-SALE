@@ -80,6 +80,9 @@
                     <div class="collapse" id="sidebarEmployeeS">
                         <ul class="nav-second-level">
                             <li>
+                                <a href="{{ route('pay.salary') }}">Add Advance Salary</a>
+                            </li>
+                            <li>
                                 <a href="{{ route('add.advance.salary') }}">Add Advance Salary</a>
                             </li>
                             <li>
@@ -93,6 +96,8 @@
                         </ul>
                     </div>
                 </li>
+
+
                 <li>
                     <a href="#sidebarCustomer" data-bs-toggle="collapse">
                         <i class="mdi mdi-cart-outline"></i>

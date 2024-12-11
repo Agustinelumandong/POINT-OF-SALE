@@ -45,7 +45,13 @@
                                             <td>{{ $item['employee']['employeeName'] }}</td>
                                             <td>{{ $item->month }}</td>
                                             <td>{{ $item['employee']['employeeSalary'] }}</td>
-                                            <td>{{ $item->advance_salary }}</td>
+                                            <td>
+                                                @if ($item->advance_salary == null)
+                                                    <p>No Advance</p>
+                                                @else
+                                                    {{ $item->advance_salary }}
+                                                @endif
+                                            </td>
                                             <td>
 
 
