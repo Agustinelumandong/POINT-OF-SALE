@@ -16,6 +16,9 @@ use Darryldecode\Cart\Facades\CartFacade as Cart;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\HolidaysController;
+use App\Http\Controllers\Backend\AttendanceController;
+
+
 // use ;
 
 Route::get('/', function () {
@@ -164,8 +167,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/advance/salary/store', 'AdvanceSalaryStore')->name('advance.salary.store');
         Route::get('/all/advance/salary', 'AllAdvanceSalary')->name('all.advance.salary');
         Route::get('/edit/advance/salary/{id}', 'EditAdvanceSalary')->name('edit.advance.salary');
-        Route::post('/advance/salary/store', 'AdvanceSalaryUpdate')->name('advance.salary.update');
-        Route::get('/show/deleted/AdvanceSalary',  'ShowDeletedAdvanceSalary')->name('show.deleted.advance.salary');
+        Route::post('/advance/salary/update', 'AdvanceSalaryUpdate')->name('advance.salary.update');
+        Route::get('/show/deleted/advance/salary',  'ShowDeletedAdvanceSalary')->name('show.deleted.advance.salary');
         Route::get('/restore/advance/salary/{id}',  'RestoreAdvanceSalary')->name('restore.advance.salary');
     }); //end Route::controller(), Group
 
@@ -176,5 +179,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/pay/now/salary/{id}', 'PayNowSalary')->name('pay.now.salary');
         Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
         Route::get('/month/salary', 'MonthSalary')->name('month.salary');
+    }); //end Route::controller(), Group
+
+    ///Attendance All Route 
+    Route::controller(AttendanceController::class)->group(function () {
+
+        Route::get('/employee/attend/list', 'EmployeeAttendanceList')->name('employee.attend.list');
+        Route::get('/add/employee/attend', 'AddEmployeeAttendance')->name('add.employee.attend');
+        Route::post('/employee/attend/store', 'EmployeeAttendanceStore')->name('employee.attend.store');
+
+        Route::get('/edit/employee/attend/{date}', 'EditEmployeeAttendance')->name('employee.attend.edit');
+        Route::get('/view/employee/attend/{date}', 'ViewEmployeeAttendance')->name('employee.attend.view');
     });
 }); //end Route::middleware(), Group

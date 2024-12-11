@@ -22,7 +22,7 @@
         <!-- Start Content-->
         <div class="row card user-profile o-hidden mb-30">
             <div class="card-body">
-                <form method="post" action="{{ route('advance.salary.store') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('advance.salary.store') }}">
                     @csrf
 
 

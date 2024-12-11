@@ -19,7 +19,6 @@ class SalaryController extends Controller
 
     public function AdvanceSalaryStore(Request $request)
     {
-
         $validateData = $request->validate([
             'month' => 'required',
             'year' => 'required',
@@ -186,10 +185,10 @@ class SalaryController extends Controller
         PaySalary::insert([
 
             'employee_id' => $employee_id,
-            'salaryMonth' => $request->month,
-            'paidAmount' => $request->paid_amount,
-            'advanceSalary' => $request->advance_salary,
-            'dueSalary' => $request->due_salary,
+            'monthlySalary' => $request->monthlySalary,
+            'paidSalary' => $request->paidSalary,
+            'dueSalary' => $request->dueSalary,
+            'advanceSalary' => $request->advanceSalary,
             'created_at' => Carbon::now(),
 
         ]);
@@ -200,6 +199,13 @@ class SalaryController extends Controller
         );
 
         return redirect()->route('pay.salary')->with($notification);
+    } // End Method 
+
+    public function MonthSalary()
+    {
+
+        $paidSalary = PaySalary::latest()->get();
+        return view('backend.salary.month_salary', compact('paidSalary'));
     } // End Method 
 
 

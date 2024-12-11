@@ -60,7 +60,7 @@
                                             <div class="mb-3">
                                                 <label for="firstname" class="form-label">Salary Month </label>
                                                 <strong style="color: #000;">{{ date('F', strtotime('-1 month')) }}</strong>
-                                                <input type="hidden" name="month"
+                                                <input type="hidden" name="monthlySalary"
                                                     value="{{ date('F', strtotime('-1 month')) }}">
 
                                             </div>
@@ -71,7 +71,7 @@
                                             <div class="mb-3">
                                                 <label for="firstname" class="form-label">Employee Salary </label>
                                                 <strong style="color: #000;">{{ $paySalary->employeeSalary }}</strong>
-                                                <input type="hidden" name="paid_amount"
+                                                <input type="hidden" name="paidSalary"
                                                     value="{{ $paySalary->employeeSalary }}">
                                             </div>
                                         </div>
@@ -79,10 +79,10 @@
 
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="firstname" class="form-label">Advnace Salary </label>
+                                                <label for="firstname" class="form-label">Advance Salary </label>
                                                 <strong
                                                     style="color: #000;">{{ $paySalary['advance']['advance_salary'] }}</strong>
-                                                <input type="hidden" name="advance_salary"
+                                                <input type="hidden" name="advanceSalary" id="advanceSalary"
                                                     value="{{ $paySalary['advance']['advance_salary'] }}">
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                                                     @endif
 
                                                 </strong>
-                                                <input type="hidden" name="due_salary" value="{{ round($amount) }}">
+                                                <input type="hidden" name="dueSalary" value="{{ round($amount) }}">
                                             </div>
                                         </div>
 
