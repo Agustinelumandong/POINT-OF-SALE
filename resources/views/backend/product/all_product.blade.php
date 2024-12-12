@@ -11,7 +11,7 @@
                             <a href="{{ route('export.product') }}"
                                 class="btn btn-danger rounded-pill waves-effect waves-light">
                                 <i class="i-Edit text-25 text-success"></i>Export Product</a>
-                            <a href="{{ route('import.product') }}"
+                            <a href="{{ route('import.product.page') }}"
                                 class="btn btn-warning rounded-pill waves-effect waves-light">
                                 <i class="i-Edit text-25 text-success"></i>Import Product</a>
                             <a href="{{ route('add.product') }}"

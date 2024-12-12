@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductExport;
 use App\Imports\ProductImport;
@@ -251,7 +252,8 @@ class ProductController extends Controller
     public function ImportProductPage()
     {
         return view("backend.product.import_product");
-    } //end method ImportProduct
+    } //end method ImportProductPage
+
     public function ExportProduct()
     {
         return Excel::download(new ProductExport, 'products.xlsx');
@@ -259,15 +261,39 @@ class ProductController extends Controller
 
     public function ImportProduct(Request $request)
     {
-        Excel::import(new ProductImport, $request->file('importProduct'));
+        // Validate the uploaded file
+        $request->validate([
+            'importProduct' => 'required|file|mimes:xlsx,xls,csv|max:2048', // Adjust max size as needed
+        ]);
 
-        $notification = [
-            'message' => 'Product Imported Successfully',
-            'alert-type' => 'success',
-        ];
+        // Check if the file is present
+        if ($request->hasFile('importProduct')) {
+            // Get the file
+            $file = $request->file('importProduct');
 
-        return redirect()->back()->with($notification);
-    } //end method ImportProduct
+            // Debugging: Check the file extension
+            $extension = $file->getClientOriginalExtension();
+            Log::info('File extension: ' . $extension);
+
+            // Import the file
+            Excel::import(new ProductImport, $file);
+
+            $notification = [
+                'message' => 'Product Imported Successfully',
+                'alert-type' => 'success',
+            ];
+
+            return redirect()->back()->with($notification);
+        } else {
+            // Handle the case where the file is not present
+            $notification = [
+                'message' => 'No file was uploaded.',
+                'alert-type' => 'error',
+            ];
+
+            return redirect()->back()->with($notification);
+        }
+    }
 
 
     public function StockManage()

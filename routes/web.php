@@ -119,7 +119,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/import/product/page',  'ImportProductPage')->name('import.product.page');
         Route::get('/export',  'ExportProduct')->name('export.product');
         Route::post('/import',  'ImportProduct')->name('import.product');
-
         Route::get('/stock', 'StockManage')->name('stock.manage');
         Route::get('/product-stock/{id}', 'UpdateStockAjax');
         Route::post('/update-stock', 'UpdateStock')->name('update.stock');
